@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "jDxx7eUBABY=",
+  "success": true,
+  "projectFilePath": "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur.Infrastructure/UnclewoodCleanArchitectur.Infrastructure.csproj",
+  "expectedPackageFiles": [
+    "/Users/luxurysmartphone/.nuget/packages/ardalis.smartenum/8.2.0/ardalis.smartenum.8.2.0.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,12 @@
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitecture.Domain/bin/Debug/net8.0/UnclewoodCleanArchitecture.Domain.deps.json
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitecture.Domain/bin/Debug/net8.0/UnclewoodCleanArchitecture.Domain.dll
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitecture.Domain/bin/Debug/net8.0/UnclewoodCleanArchitecture.Domain.pdb
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitecture.Domain/obj/Debug/net8.0/UnclewoodCleanArchitecture.Domain.csproj.AssemblyReference.cache
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitecture.Domain/obj/Debug/net8.0/UnclewoodCleanArchitecture.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitecture.Domain/obj/Debug/net8.0/UnclewoodCleanArchitecture.Domain.AssemblyInfoInputs.cache
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitecture.Domain/obj/Debug/net8.0/UnclewoodCleanArchitecture.Domain.AssemblyInfo.cs
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitecture.Domain/obj/Debug/net8.0/UnclewoodCleanArchitecture.Domain.csproj.CoreCompileInputs.cache
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitecture.Domain/obj/Debug/net8.0/UnclewoodCleanArchitecture.Domain.dll
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitecture.Domain/obj/Debug/net8.0/refint/UnclewoodCleanArchitecture.Domain.dll
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitecture.Domain/obj/Debug/net8.0/UnclewoodCleanArchitecture.Domain.pdb
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitecture.Domain/obj/Debug/net8.0/ref/UnclewoodCleanArchitecture.Domain.dll

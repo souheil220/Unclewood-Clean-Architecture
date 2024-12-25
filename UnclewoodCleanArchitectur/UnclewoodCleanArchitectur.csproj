@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>Unclewood_Clean_Architectur</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\UnclewoodCleanArchitectur.Infrastructure\UnclewoodCleanArchitectur.Infrastructure.csproj" />
+      <ProjectReference Include="..\UnclewoodCleanArchitectur.Presentation\UnclewoodCleanArchitectur.Presentation.csproj" />
+    </ItemGroup>
+
+</Project>
