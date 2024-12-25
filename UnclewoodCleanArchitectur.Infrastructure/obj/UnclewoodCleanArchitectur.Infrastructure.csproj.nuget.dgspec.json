@@ -4,14 +4,14 @@
     "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur.Infrastructure/UnclewoodCleanArchitectur.Infrastructure.csproj": {}
   },
   "projects": {
-    "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur.Application/UnclewoodCleanArchitectur.Application.csproj": {
+    "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur.Infrastructure/UnclewoodCleanArchitectur.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur.Application/UnclewoodCleanArchitectur.Application.csproj",
-        "projectName": "UnclewoodCleanArchitectur.Application",
-        "projectPath": "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur.Application/UnclewoodCleanArchitectur.Application.csproj",
+        "projectUniqueName": "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur.Infrastructure/UnclewoodCleanArchitectur.Infrastructure.csproj",
+        "projectName": "UnclewoodCleanArchitectur.Infrastructure",
+        "projectPath": "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur.Infrastructure/UnclewoodCleanArchitectur.Infrastructure.csproj",
         "packagesPath": "/Users/luxurysmartphone/.nuget/packages/",
-        "outputPath": "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur.Application/obj/",
+        "outputPath": "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur.Infrastructure/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/luxurysmartphone/.nuget/NuGet/NuGet.Config"
@@ -26,8 +26,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitecture.Domain/UnclewoodCleanArchitecture.Domain.csproj": {
-                "projectPath": "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitecture.Domain/UnclewoodCleanArchitecture.Domain.csproj"
+              "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitecture.Application/UnclewoodCleanArchitecture.Application.csproj": {
+                "projectPath": "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitecture.Application/UnclewoodCleanArchitecture.Application.csproj"
               }
             }
           }
@@ -66,14 +66,14 @@
         }
       }
     },
-    "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur.Infrastructure/UnclewoodCleanArchitectur.Infrastructure.csproj": {
+    "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitecture.Application/UnclewoodCleanArchitecture.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur.Infrastructure/UnclewoodCleanArchitectur.Infrastructure.csproj",
-        "projectName": "UnclewoodCleanArchitectur.Infrastructure",
-        "projectPath": "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur.Infrastructure/UnclewoodCleanArchitectur.Infrastructure.csproj",
+        "projectUniqueName": "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitecture.Application/UnclewoodCleanArchitecture.Application.csproj",
+        "projectName": "UnclewoodCleanArchitecture.Application",
+        "projectPath": "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitecture.Application/UnclewoodCleanArchitecture.Application.csproj",
         "packagesPath": "/Users/luxurysmartphone/.nuget/packages/",
-        "outputPath": "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur.Infrastructure/obj/",
+        "outputPath": "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitecture.Application/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/luxurysmartphone/.nuget/NuGet/NuGet.Config"
@@ -88,8 +88,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur.Application/UnclewoodCleanArchitectur.Application.csproj": {
-                "projectPath": "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur.Application/UnclewoodCleanArchitectur.Application.csproj"
+              "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitecture.Domain/UnclewoodCleanArchitecture.Domain.csproj": {
+                "projectPath": "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitecture.Domain/UnclewoodCleanArchitecture.Domain.csproj"
               }
             }
           }
@@ -108,6 +108,16 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            },
+            "MediatR": {
+              "target": "Package",
+              "version": "[12.4.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

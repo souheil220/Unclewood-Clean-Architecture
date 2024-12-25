@@ -4,13 +4,13 @@ namespace UnclewoodCleanArchitecture.Domain.Meal.Entities;
 
 public sealed class Photo : Entity
 {
-    public Photo(Guid? id, 
+    public Photo(
         string url, 
         bool isMain, 
         string publicId, 
         string name, 
         string containerName, 
-        Guid mealId) : base(id ?? Guid.NewGuid())
+        Guid mealId,Guid? id=null) : base(id ?? Guid.NewGuid())
     {
         Url = url;
         IsMain = isMain;
@@ -45,7 +45,6 @@ public sealed class Photo : Entity
         ValidatePhotoData(url, publicId, name, containerName);
 
         return new Photo(
-            Guid.NewGuid(),
             url,
             isMain,
             publicId,

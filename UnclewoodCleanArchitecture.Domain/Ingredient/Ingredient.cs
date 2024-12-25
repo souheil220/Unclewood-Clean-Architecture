@@ -8,9 +8,9 @@ namespace UnclewoodCleanArchitecture.Domain.Ingredient;
 
 public sealed class Ingredient : AggregateRoot
 {
-    public Ingredient(Guid? id,
+    public Ingredient(
         Name name, 
-        Price price) : base(id??Guid.NewGuid())
+        Price price,Guid? id=null) : base(id??Guid.NewGuid())
     {
         Name = name;
         Price = price;

@@ -10,14 +10,14 @@ namespace UnclewoodCleanArchitecture.Domain.Meal;
 public sealed class Meal : AggregateRoot
 {
     
-    public Meal(Guid? id, 
+    public Meal( 
         Name name, 
         ICollection<Price> prices, 
         string description, 
         bool bestSeller, 
         bool promotion, 
         double promotionRate, 
-        Category category) : base(id?? Guid.NewGuid())
+        Category category,Guid? id = null) : base(id?? Guid.NewGuid())
     {
         Name = name;
         Prices = prices;
@@ -46,13 +46,13 @@ public sealed class Meal : AggregateRoot
     
    public List<Photo> Photos { get; private set; } = new();
     
-    public void AddIngredient(Guid ingredientId)
+    private void AddIngredient(Guid ingredientId)
     {
         if (MealIngredients.Any(mi => mi.IngredientId == ingredientId))
         {
             //TODO throw new DomainException("This ingredient is already added to the meal");
         }
-
+        
         MealIngredients.Add(new MealIngredient(null,Id, ingredientId));
     }
 
@@ -74,5 +74,23 @@ public sealed class Meal : AggregateRoot
         }
 
         MealIngredients.Remove(ingredient);
+    }
+    
+    private void AddPhoto(Photo photo)
+    {
+        if (Photos.Any(ph => ph.Url == photo.Url))
+        {
+            //TODO throw new DomainException("This ingredient is already added to the meal");
+        }
+        
+        Photos.Add(photo);
+    }
+    
+    public void AddPhotos(List<Photo> mealPhotos)
+    {
+        foreach (var mealPhoto in mealPhotos)
+        {
+            AddPhoto(mealPhoto);
+        }
     }
 }

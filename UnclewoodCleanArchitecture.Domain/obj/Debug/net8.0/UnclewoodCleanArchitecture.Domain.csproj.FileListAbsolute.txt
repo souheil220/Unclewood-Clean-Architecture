@@ -10,3 +10,4 @@
 /Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitecture.Domain/obj/Debug/net8.0/refint/UnclewoodCleanArchitecture.Domain.dll
 /Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitecture.Domain/obj/Debug/net8.0/UnclewoodCleanArchitecture.Domain.pdb
 /Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitecture.Domain/obj/Debug/net8.0/ref/UnclewoodCleanArchitecture.Domain.dll
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitecture.Domain/obj/Debug/net8.0/UnclewoodCleanArchitecture.Domain.sourcelink.json

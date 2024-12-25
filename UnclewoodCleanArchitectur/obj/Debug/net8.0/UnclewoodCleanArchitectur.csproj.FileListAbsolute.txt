@@ -39,3 +39,6 @@
 /Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/obj/Debug/net8.0/UnclewoodCleanArchitectur.pdb
 /Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/obj/Debug/net8.0/UnclewoodCleanArchitectur.genruntimeconfig.cache
 /Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/obj/Debug/net8.0/ref/UnclewoodCleanArchitectur.dll
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/MediatR.dll
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/MediatR.Contracts.dll
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/obj/Debug/net8.0/UnclewoodCleanArchitectur.sourcelink.json

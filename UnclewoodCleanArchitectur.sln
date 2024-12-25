@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnclewoodCleanArchitectur",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnclewoodCleanArchitecture.Domain", "UnclewoodCleanArchitecture.Domain\UnclewoodCleanArchitecture.Domain.csproj", "{E29CF90A-ECA0-4A0D-858E-C1461218137F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnclewoodCleanArchitectur.Application", "UnclewoodCleanArchitectur.Application\UnclewoodCleanArchitectur.Application.csproj", "{3E86AEB1-478F-4055-8300-0E58F96B3B82}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnclewoodCleanArchitecture.Application", "UnclewoodCleanArchitecture.Application\UnclewoodCleanArchitecture.Application.csproj", "{3E86AEB1-478F-4055-8300-0E58F96B3B82}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnclewoodCleanArchitectur.Presentation", "UnclewoodCleanArchitectur.Presentation\UnclewoodCleanArchitectur.Presentation.csproj", "{CACBFBF2-189C-46D4-BC65-56624BFADDD5}"
 EndProject

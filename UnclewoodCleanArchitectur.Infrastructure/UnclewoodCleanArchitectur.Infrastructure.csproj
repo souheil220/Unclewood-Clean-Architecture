@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\UnclewoodCleanArchitectur.Application\UnclewoodCleanArchitectur.Application.csproj" />
+      <ProjectReference Include="..\UnclewoodCleanArchitecture.Application\UnclewoodCleanArchitecture.Application.csproj" />
     </ItemGroup>
 
 </Project>
