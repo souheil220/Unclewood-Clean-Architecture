@@ -2,6 +2,7 @@ using Ardalis.SmartEnum;
 
 namespace UnclewoodCleanArchitecture.Domain.Common.Enum;
 
+
 public class Location : SmartEnum<Location>
 {
     public static readonly Location SBA= new(nameof(SBA), 0);
@@ -9,4 +10,5 @@ public class Location : SmartEnum<Location>
     public Location(string name, int value) : base(name, value)
     {
     }
+    
 }

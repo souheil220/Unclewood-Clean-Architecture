@@ -10,9 +10,7 @@
 /Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/Swashbuckle.AspNetCore.Swagger.dll
 /Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerGen.dll
 /Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerUI.dll
-/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/UnclewoodCleanArchitectur.Presentation.dll
 /Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/UnclewoodCleanArchitecture.Domain.dll
-/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/UnclewoodCleanArchitectur.Presentation.pdb
 /Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/UnclewoodCleanArchitecture.Domain.pdb
 /Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/obj/Debug/net8.0/UnclewoodCleanArchitectur.csproj.AssemblyReference.cache
 /Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/obj/Debug/net8.0/UnclewoodCleanArchitectur.GeneratedMSBuildEditorConfig.editorconfig
@@ -121,3 +119,12 @@
 /Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/UnclewoodCleanArchitecture.Infrastructure.dll
 /Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/UnclewoodCleanArchitecture.Infrastructure.pdb
 /Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/UnclewoodCleanArchitecture.Application.pdb
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/Microsoft.AspNetCore.JsonPatch.dll
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/Microsoft.AspNetCore.Mvc.Razor.Extensions.dll
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/Microsoft.AspNetCore.Razor.Language.dll
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/Microsoft.CodeAnalysis.Razor.dll
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/Newtonsoft.Json.dll
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/Newtonsoft.Json.Bson.dll
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/System.Security.Permissions.dll
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/UnclewoodCleanArchitecture.Presentation.dll
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/UnclewoodCleanArchitecture.Presentation.pdb

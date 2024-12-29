@@ -1,6 +1,7 @@
 using MediatR;
 using UnclewoodCleanArchitecture.Application.Common.Interfaces;
 using UnclewoodCleanArchitecture.Application.Meal.Commands.CreateMeal;
+using UnclewoodCleanArchitecture.Domain.Common.ValueObject;
 
 namespace UnclewoodCleanArchitecture.Application.Ingredient.Commands.CreateIngredient;
 
@@ -18,7 +19,8 @@ public class CreateIngredientCommandHandler : IRequestHandler<CreateIngredientCo
     public async Task<Domain.Ingredient.Ingredient> Handle(CreateIngredientCommand request, CancellationToken cancellationToken)
     {
         var ingredient = new Domain.Ingredient.Ingredient(
-            name:request.Name,
+            name:Name.Create(request.Name),
+            disponibleIn:request.DisponibleIn,
             price: request.Price
             );
         await _ingrediantsRepository.AddIngrediantAsync(ingredient);

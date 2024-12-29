@@ -10,14 +10,13 @@ public sealed class Photo : Entity
         string publicId, 
         string name, 
         string containerName, 
-        Guid mealId,Guid? id=null) : base(id ?? Guid.NewGuid())
+        Guid? id=null) : base(id ?? Guid.NewGuid())
     {
         Url = url;
         IsMain = isMain;
         PublicId = publicId;
         Name = name;
         ContainerName = containerName;
-        MealId = mealId;
     }
     
     public string Url { get; private set; }
@@ -32,14 +31,11 @@ public sealed class Photo : Entity
     
     public Guid MealId { get; private set; }
     
-    public Meal Meal { get; private set; }
-    
     public static Photo Create(
         string url,
         string publicId,
         string name,
         string containerName,
-        Guid mealId,
         bool isMain = false)
     {
         ValidatePhotoData(url, publicId, name, containerName);
@@ -49,8 +45,7 @@ public sealed class Photo : Entity
             isMain,
             publicId,
             name,
-            containerName,
-            mealId);
+            containerName);
     }
     private static void ValidatePhotoData(
         string url,
@@ -118,4 +113,7 @@ public sealed class Photo : Entity
 
         PublicId = newPublicId;
     }
+    
+    private Photo() : base(id:Guid.NewGuid())
+    { }
 }

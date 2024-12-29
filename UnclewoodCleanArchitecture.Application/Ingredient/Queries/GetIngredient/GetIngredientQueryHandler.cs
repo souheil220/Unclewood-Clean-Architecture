@@ -12,7 +12,7 @@ public class GetIngredientQueryHandler: IRequestHandler<GetIngredientQuery, Doma
     {
         _ingrediantsRepository = ingrediantsRepository;
     }
-    public async Task<Domain.Ingredient.Ingredient> Handle(GetIngredientQuery request, CancellationToken cancellationToken)
+    public async Task<Domain.Ingredient.Ingredient?> Handle(GetIngredientQuery request, CancellationToken cancellationToken)
     {
         var ingrediant = await _ingrediantsRepository.GetIngrediantByIdAsync(request.IngredientId);
 

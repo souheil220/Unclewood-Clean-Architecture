@@ -1,7 +1,7 @@
 using GymManagement.Infrastructure.Common.Persistence;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace UnclewoodCleanArchitectur.Infrastructure.Common.Persistence;
+namespace UnclewoodCleanArchitecture.Infrastructure.Common.Persistence;
 
 public static class FluentApiExtensions
 {

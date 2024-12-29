@@ -1,7 +1,8 @@
-using UnclewoodCleanArchitectur.Infrastructure.Common.Persistence;
+using Microsoft.EntityFrameworkCore;
+using UnclewoodCleanArchitecture.Infrastructure.Common.Persistence;
 using UnclewoodCleanArchitecture.Application.Common.Interfaces;
 
-namespace UnclewoodCleanArchitectur.Infrastructure.Meal.Persistence;
+namespace UnclewoodCleanArchitecture.Infrastructure.Meal.Persistence;
 
 public class MealRepository : IMealRepository
 {
@@ -12,37 +13,46 @@ public class MealRepository : IMealRepository
         _dbContext = dbContext;
     }
 
-    public void UpdateMeal(UnclewoodCleanArchitecture.Domain.Meal.Meal meal)
+    public void UpdateMeal(Domain.Meal.Meal meal)
     {
         throw new NotImplementedException();
     }
 
-    public Task<UnclewoodCleanArchitecture.Domain.Meal.Meal> GetMealByNameAsync(string mealName)
+    public async Task<Domain.Meal.Meal?> GetMealByNameAsync(string mealName)
     {
-        throw new NotImplementedException();
+        return await _dbContext.Meals
+            .Where(x => x.Name == mealName)
+            .SingleOrDefaultAsync();
     }
 
-    public Task<UnclewoodCleanArchitecture.Domain.Meal.Meal> GetMealByGuidAsync(Guid mealGuid)
+    public async Task<Domain.Meal.Meal?> GetMealByGuidAsync(Guid mealGuid)
     {
-        throw new NotImplementedException();
+        return await _dbContext.Meals.Include(m => m!.MealIngredients) 
+            .ThenInclude(mi => mi.Ingredient) 
+            .Include(m => m!.Photos) 
+            .FirstOrDefaultAsync(m => m!.Id == mealGuid);
     }
 
-    public Task<IEnumerable<UnclewoodCleanArchitecture.Domain.Meal.Meal>> GetMealsAsync()
+    public async Task<IEnumerable<Domain.Meal.Meal>> GetMealsAsync()
     {
-        throw new NotImplementedException();
+        return await _dbContext.Meals.Include(m => m!.Prices)
+            .Include(m => m!.Photos)
+            .Include(m => m!.MealIngredients)
+            .ThenInclude(i => i.Ingredient)
+            .ToListAsync();
     }
 
-    public Task<bool> MealExists(string mealName)
+    public async Task<bool> MealExists(string mealName)
     {
-        throw new NotImplementedException();
+        return await _dbContext.Meals.AnyAsync(x => x.Name == mealName);
     }
 
-    public Task AddMealAsync(UnclewoodCleanArchitecture.Domain.Meal.Meal meal)
+    public async Task AddMealAsync(Domain.Meal.Meal meal)
     {
-        throw new NotImplementedException();
+       await _dbContext.Meals.AddAsync(meal);
     }
 
-    public Task DeleteMealAsync(UnclewoodCleanArchitecture.Domain.Meal.Meal meal)
+    public Task DeleteMealAsync(Domain.Meal.Meal meal)
     {
         throw new NotImplementedException();
     }

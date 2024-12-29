@@ -12,7 +12,6 @@ public sealed class Meal : AggregateRoot
     
     public Meal( 
         Name name, 
-        ICollection<Price> prices, 
         string description, 
         bool bestSeller, 
         bool promotion, 
@@ -20,7 +19,6 @@ public sealed class Meal : AggregateRoot
         Category category,Guid? id = null) : base(id?? Guid.NewGuid())
     {
         Name = name;
-        Prices = prices;
         Description = description;
         BestSeller = bestSeller;
         Promotion = promotion;
@@ -30,7 +28,7 @@ public sealed class Meal : AggregateRoot
     
     public Name Name { get; private set; }
     
-    public ICollection<Price> Prices { get; private set; }
+    public List<Price> Prices { get; private set; } = new();
     
     public string Description { get; private set; }
    
@@ -53,7 +51,7 @@ public sealed class Meal : AggregateRoot
             //TODO throw new DomainException("This ingredient is already added to the meal");
         }
         
-        MealIngredients.Add(new MealIngredient(null,Id, ingredientId));
+        MealIngredients.Add(new MealIngredient(Id, ingredientId));
     }
 
     public void AddIngredients(IEnumerable<Guid> ingredientIds)
@@ -75,7 +73,19 @@ public sealed class Meal : AggregateRoot
 
         MealIngredients.Remove(ingredient);
     }
-    
+
+    private void AddPrice(Price price)
+    {
+        Prices.Add(new Price(price.Value,price.Currency,price.Location));
+    }
+
+    public void AddPrices(ICollection<Price> prices)
+    {
+        foreach (var price in prices)
+        {
+            AddPrice(price);
+        }
+    }
     private void AddPhoto(Photo photo)
     {
         if (Photos.Any(ph => ph.Url == photo.Url))
@@ -83,7 +93,7 @@ public sealed class Meal : AggregateRoot
             //TODO throw new DomainException("This ingredient is already added to the meal");
         }
         
-        Photos.Add(photo);
+        Photos.Add(Photo.Create(photo.Url,"",photo.Name,""));
     }
     
     public void AddPhotos(List<Photo> mealPhotos)
@@ -93,4 +103,7 @@ public sealed class Meal : AggregateRoot
             AddPhoto(mealPhoto);
         }
     }
+    
+    private Meal() : base(id:Guid.NewGuid())
+    {}
 }

@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using UnclewoodCleanArchitecture.Application.Common.Interfaces;
 using UnclewoodCleanArchitecture.Infrastructure.Common.Persistence;
 
-namespace UnclewoodCleanArchitecture.Infrastructure.Common.Ingredient.Persistence;
+namespace UnclewoodCleanArchitecture.Infrastructure.Ingredient.Persistence;
 
 public class IngredientRepository : IIngrediantsRepository
 {

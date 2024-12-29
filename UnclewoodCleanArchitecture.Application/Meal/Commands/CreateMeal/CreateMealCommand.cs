@@ -1,14 +1,12 @@
 using MediatR;
 using UnclewoodCleanArchitecture.Application.DTOS;
-using UnclewoodCleanArchitecture.Domain.Common.ValueObject;
-using UnclewoodCleanArchitecture.Domain.Meal.ValueObjects;
 using UnclewoodCleanArchitecture.Domain.Meal.Enums;
 
 namespace UnclewoodCleanArchitecture.Application.Meal.Commands.CreateMeal;
 
 public record CreateMealCommand( 
-    Name Name, 
-    ICollection<Price> Prices, 
+    string Name, 
+    ICollection<PriceDto> Prices, 
     string Description, 
     bool BestSeller, 
     bool Promotion, 

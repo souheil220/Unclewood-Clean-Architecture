@@ -2,15 +2,17 @@ using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using UnclewoodCleanArchitecture.Application.Common.Interfaces;
 using UnclewoodCleanArchitecture.Domain.Common.Entities;
-using UnclewoodCleanArchitecture.Domain.Ingredient;
-using UnclewoodCleanArchitecture.Domain.Meal;
+using UnclewoodCleanArchitecture.Domain.Common.Enum;
+using UnclewoodCleanArchitecture.Domain.Common.ValueObject;
+using UnclewoodCleanArchitecture.Domain.Meal.ValueObjects;
 
-namespace UnclewoodCleanArchitectur.Infrastructure.Common.Persistence;
+namespace UnclewoodCleanArchitecture.Infrastructure.Common.Persistence;
 
 public class UnclewoodDbContext : DbContext, IUnitOfWork
 {
-    public DbSet<Meal> Admins { get; set; } = null!;
-    public DbSet<Ingredient> Subscriptions { get; set; } = null!;
+    public DbSet<Domain.Meal.Meal> Meals { get; set; } = null!;
+    public DbSet<Domain.Ingredient.Ingredient> Ingredients { get; set; } = null!;
+    
     public DbSet<MealIngredient> MealIngrediants { get; set; }
 
 
@@ -28,5 +30,18 @@ public class UnclewoodDbContext : DbContext, IUnitOfWork
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
         base.OnModelCreating(modelBuilder);
+  
+        modelBuilder.Entity<MealIngredient>()
+            .HasKey(mi => new { mi.MealId, mi.IngredientId });
+        
+        modelBuilder.Entity<MealIngredient>()
+            .HasOne(mi => mi.Meal)
+            .WithMany(m => m.MealIngredients)
+            .HasForeignKey(mi => mi.MealId);
+
+        modelBuilder.Entity<MealIngredient>()
+            .HasOne(mi => mi.Ingredient)
+            .WithMany(i => i.MealIngrediants)
+            .HasForeignKey(mi => mi.IngredientId);
     }
 }

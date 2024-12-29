@@ -6,9 +6,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnclewoodCleanArchitecture.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnclewoodCleanArchitecture.Application", "UnclewoodCleanArchitecture.Application\UnclewoodCleanArchitecture.Application.csproj", "{3E86AEB1-478F-4055-8300-0E58F96B3B82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnclewoodCleanArchitectur.Presentation", "UnclewoodCleanArchitectur.Presentation\UnclewoodCleanArchitectur.Presentation.csproj", "{CACBFBF2-189C-46D4-BC65-56624BFADDD5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnclewoodCleanArchitecture.Presentation", "UnclewoodCleanArchitecture.Presentation\UnclewoodCleanArchitecture.Presentation.csproj", "{CACBFBF2-189C-46D4-BC65-56624BFADDD5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnclewoodCleanArchitectur.Infrastructure", "UnclewoodCleanArchitectur.Infrastructure\UnclewoodCleanArchitectur.Infrastructure.csproj", "{AB4022EC-995F-4AD0-9ED7-9E43B9F2068E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnclewoodCleanArchitecture.Infrastructure", "UnclewoodCleanArchitecture.Infrastructure\UnclewoodCleanArchitecture.Infrastructure.csproj", "{AB4022EC-995F-4AD0-9ED7-9E43B9F2068E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

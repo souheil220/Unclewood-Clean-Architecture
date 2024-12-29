@@ -1,13 +1,15 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using UnclewoodCleanArchitecture.Domain.Common.Enum;
 using UnclewoodCleanArchitecture.Domain.Common.ValueObject;
 
 namespace UnclewoodCleanArchitecture.Domain.Meal.ValueObjects;
 
+
 public sealed class Price : BasePrice
 {
-    public Location Location { get; private set; }
-    
-    private Price(decimal value, string currency, Location location)
+    public Location Location { get; private set; } = null!;
+
+    public Price(decimal value, string currency, Location location)
         : base(value, currency)
     {
         Location = location;
@@ -23,5 +25,6 @@ public sealed class Price : BasePrice
         // Include Location in equality check
         yield return Location;
     }
-    
+    private Price() : base(0,string.Empty)
+    { }
 }

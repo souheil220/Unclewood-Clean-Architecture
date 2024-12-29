@@ -1,11 +1,11 @@
-using GymManagement.Infrastructure.Subscriptions.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using UnclewoodCleanArchitectur.Infrastructure.Common.Persistence;
-using UnclewoodCleanArchitectur.Infrastructure.Meal.Persistence;
 using UnclewoodCleanArchitecture.Application.Common.Interfaces;
+using UnclewoodCleanArchitecture.Infrastructure.Common.Persistence;
+using UnclewoodCleanArchitecture.Infrastructure.Ingredient.Persistence;
+using UnclewoodCleanArchitecture.Infrastructure.Meal.Persistence;
 
-namespace UnclewoodCleanArchitectur.Infrastructure;
+namespace UnclewoodCleanArchitecture.Infrastructure;
 
 public static class DependencyInjection
 {
@@ -18,11 +18,10 @@ public static class DependencyInjection
     public static IServiceCollection AddPersistence(this IServiceCollection services)
     {
         services.AddDbContext<UnclewoodDbContext>(options =>
-            options.UseNpgsql("Host=localhost;Database=UnclewoodCleanArchitectur;Username=souhil;Password=myPassword"));
+            options.UseNpgsql("Host=localhost;Database=luxurysmartphone;Username=luxurysmartphone;Password="));
 
         services.AddScoped<IMealRepository, MealRepository>();
-        services.AddScoped<IIngrediantsRepository, IngrediantsRepository>();
-        //services.AddScoped<ISubscriptionsRepository, IngredientRepository>();
+        services.AddScoped<IIngrediantsRepository, IngredientRepository>();
         services.AddScoped<IUnitOfWork>(serviceProvider => serviceProvider.GetRequiredService<UnclewoodDbContext>());
 
         return services;

@@ -2,9 +2,9 @@ using UnclewoodCleanArchitecture.Domain.Common.Models;
 
 namespace UnclewoodCleanArchitecture.Domain.Common.Entities;
 
-public sealed class MealIngredient : Entity
+public sealed class MealIngredient : Models.ValueObject
 {
-    public MealIngredient(Guid? id, Guid mealId,  Guid ingredientId) : base(id??Guid.NewGuid())
+    public MealIngredient(Guid mealId,  Guid ingredientId)
     {
         MealId = mealId;
         IngredientId = ingredientId;
@@ -15,5 +15,10 @@ public sealed class MealIngredient : Entity
 
     public Guid IngredientId { get; private set; }
     public Ingredient.Ingredient Ingredient { get; private set; }
-   
+
+    public override IEnumerable<object?> GetEqualityComponent()
+    {
+        yield return MealId;
+        yield return IngredientId;
+    }
 }

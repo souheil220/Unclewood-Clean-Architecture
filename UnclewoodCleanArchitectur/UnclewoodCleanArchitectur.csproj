@@ -17,7 +17,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\UnclewoodCleanArchitecture.Infrastructure\UnclewoodCleanArchitecture.Infrastructure.csproj" />
-      <ProjectReference Include="..\UnclewoodCleanArchitectur.Presentation\UnclewoodCleanArchitectur.Presentation.csproj" />
+      <ProjectReference Include="..\UnclewoodCleanArchitecture.Presentation\UnclewoodCleanArchitecture.Presentation.csproj" />
     </ItemGroup>
 
 </Project>

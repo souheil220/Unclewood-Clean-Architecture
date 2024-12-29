@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using UnclewoodCleanArchitecture.Application.Helper;
 
 namespace UnclewoodCleanArchitecture.Application;
 
@@ -10,7 +11,7 @@ public static class DependencyInjection
         {
             options.RegisterServicesFromAssemblyContaining(typeof(DependencyInjection));
         });
-
+        services.AddAutoMapper(typeof(AutoMapperProfiles));
         return services;
     }
 }

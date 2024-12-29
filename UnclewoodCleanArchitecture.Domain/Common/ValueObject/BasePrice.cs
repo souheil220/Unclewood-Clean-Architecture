@@ -104,4 +104,5 @@ public class BasePrice : Models.ValueObject
         yield return Value;
         yield return Currency;
     }
+    
 }
