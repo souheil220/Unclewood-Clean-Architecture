@@ -10,5 +10,5 @@ public interface IMealRepository
     Task<bool> MealExists(string mealName);
    // void AddMealIngrediant(ICollection<MealIngredeant> mealIngrediant);
     Task AddMealAsync(Domain.Meal.Meal meal);
-    Task DeleteMealAsync(Domain.Meal.Meal meal);
+    Task DeleteMealAsync(Guid mealId);
 }

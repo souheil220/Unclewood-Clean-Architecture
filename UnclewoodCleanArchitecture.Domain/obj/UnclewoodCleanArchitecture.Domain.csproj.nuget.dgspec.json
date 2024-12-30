@@ -46,6 +46,10 @@
             "Ardalis.SmartEnum": {
               "target": "Package",
               "version": "[8.2.0, )"
+            },
+            "MediatR": {
+              "target": "Package",
+              "version": "[12.4.1, )"
             }
           },
           "imports": [

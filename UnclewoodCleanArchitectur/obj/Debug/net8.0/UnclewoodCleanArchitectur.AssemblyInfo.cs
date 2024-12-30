@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("UnclewoodCleanArchitectur")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+74966fa38e9eaae7e97303f5380a49e4de8ae1f7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3a35338d9ee5e3f4f18a09e3c31d580c85a30280")]
 [assembly: System.Reflection.AssemblyProductAttribute("UnclewoodCleanArchitectur")]
 [assembly: System.Reflection.AssemblyTitleAttribute("UnclewoodCleanArchitectur")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

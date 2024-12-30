@@ -47,9 +47,14 @@ public class IngredientRepository : IIngrediantsRepository
         await _dbContext.Ingredients.AddAsync(ingrediant);
     }
 
-    public Task DeleteIngrediantAsync(Domain.Ingredient.Ingredient ingrediant)
+    public async Task DeleteIngrediantAsync(Guid ingrediantId)
     {
-        throw new NotImplementedException();
+        var ingredient = await _dbContext.Ingredients.FindAsync(ingrediantId);
+        if (ingredient == null)
+        {
+            throw new KeyNotFoundException($"Ingredient with ID {ingrediantId} not found.");
+        }
+        _dbContext.Ingredients.Remove(ingredient);
     }
 }
   

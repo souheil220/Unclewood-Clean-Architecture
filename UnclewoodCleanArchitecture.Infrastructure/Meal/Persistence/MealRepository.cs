@@ -52,9 +52,15 @@ public class MealRepository : IMealRepository
        await _dbContext.Meals.AddAsync(meal);
     }
 
-    public Task DeleteMealAsync(Domain.Meal.Meal meal)
+    public async Task DeleteMealAsync(Guid mealId)
     {
-        throw new NotImplementedException();
+        var meal = await _dbContext.Meals.FindAsync(mealId);
+        if (meal == null)
+        {
+            throw new KeyNotFoundException($"Meal with ID {mealId} not found.");
+        }
+
+        _dbContext.Meals.Remove(meal);
     }
 }
   

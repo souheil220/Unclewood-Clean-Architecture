@@ -6,6 +6,7 @@ using UnclewoodCleanArchitectur.Presentation.DTOs;
 using UnclewoodCleanArchitectur.Presentation.Meal;
 using UnclewoodCleanArchitecture.Application.DTOS;
 using UnclewoodCleanArchitecture.Application.Meal.Commands.CreateMeal;
+using UnclewoodCleanArchitecture.Application.Meal.Commands.DeleteMeal;
 using UnclewoodCleanArchitecture.Application.Meal.Queries.GetMeal;
 using UnclewoodCleanArchitecture.Application.Meal.Queries.ListMeals;
 using DomainCategory = UnclewoodCleanArchitecture.Domain.Meal.Enums.Category;
@@ -126,6 +127,14 @@ public class MealController : BaseApiController
 
         return  mealResponses;
 
+    }
+
+    [HttpDelete("{mealId:guid}")]
+    public async Task<ActionResult> DeleteMeal(Guid mealId)
+    {
+        var query = new DeleteMealCommand(mealId);
+        await _mediator.Send(query);
+        return NoContent();
     }
     
     private static Category ToDto(DomainCategory category)

@@ -28,6 +28,9 @@ public class CreateMealCommandHandler(IMealRepository mealRepository, IUnitOfWor
         meal.AddPhotos(photos);
         meal.AddPrices(prices);
         await mealRepository.AddMealAsync(meal);
+        /* If I had a chain reaction for example that it should happen after the addition of a new mela
+         I would raise the events just like a did below */
+        meal.RaiseMealCreatedEvent();
         await unitOfWork.CommitChangesAsync();
 
         return meal;

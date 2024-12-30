@@ -14,7 +14,7 @@ public class GetMealQueryHandler: IRequestHandler<GetMealQuery, Domain.Meal.Meal
     public async Task<Domain.Meal.Meal?> Handle(GetMealQuery request, CancellationToken cancellationToken)
     {
         var meal = await _mealRepository.GetMealByGuidAsync(request.MealId);
-
+        meal?.RaiseMealsListed();
         return meal;
     }
 }

@@ -8,5 +8,5 @@ public interface IIngrediantsRepository
     Task<IEnumerable<Domain.Ingredient.Ingredient>> GetIngrediantsAsync();
     Task<bool> IngrediantExists(string ingrediantName);
     Task AddIngrediantAsync(Domain.Ingredient.Ingredient ingrediant);
-    Task DeleteIngrediantAsync(Domain.Ingredient.Ingredient ingrediant);
+    Task DeleteIngrediantAsync(Guid ingrediantId);
 }

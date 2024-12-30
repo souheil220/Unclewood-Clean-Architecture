@@ -29,8 +29,6 @@ public sealed class Photo : Entity
     
     public string ContainerName { get; private set; }
     
-    public Guid MealId { get; private set; }
-    
     public static Photo Create(
         string url,
         string publicId,

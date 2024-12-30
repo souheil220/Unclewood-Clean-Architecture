@@ -1,10 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "r9ADLKT41iI=",
+  "dgSpecHash": "jLNkVIKOn6g=",
   "success": true,
   "projectFilePath": "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitecture.Domain/UnclewoodCleanArchitecture.Domain.csproj",
   "expectedPackageFiles": [
-    "/Users/luxurysmartphone/.nuget/packages/ardalis.smartenum/8.2.0/ardalis.smartenum.8.2.0.nupkg.sha512"
+    "/Users/luxurysmartphone/.nuget/packages/ardalis.smartenum/8.2.0/ardalis.smartenum.8.2.0.nupkg.sha512",
+    "/Users/luxurysmartphone/.nuget/packages/mediatr/12.4.1/mediatr.12.4.1.nupkg.sha512",
+    "/Users/luxurysmartphone/.nuget/packages/mediatr.contracts/2.0.1/mediatr.contracts.2.0.1.nupkg.sha512",
+    "/Users/luxurysmartphone/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512"
   ],
   "logs": []
 }

@@ -15,7 +15,7 @@ public class DeleteMealCommandHandler:IRequestHandler<DeleteMealCommand, bool>
     }
     public async Task<bool> Handle(DeleteMealCommand request, CancellationToken cancellationToken)
     {
-        await _mealRepository.DeleteMealAsync(request.meal);
+        await _mealRepository.DeleteMealAsync(request.MealId);
         await _unitOfWork.CommitChangesAsync();
         //TODO Change to return a result
         return true;

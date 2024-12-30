@@ -1657,7 +1657,8 @@
       },
       "UnclewoodCleanArchitecture.Domain/1.0.0": {
         "dependencies": {
-          "Ardalis.SmartEnum": "8.2.0"
+          "Ardalis.SmartEnum": "8.2.0",
+          "MediatR": "12.4.1"
         },
         "runtime": {
           "UnclewoodCleanArchitecture.Domain.dll": {}

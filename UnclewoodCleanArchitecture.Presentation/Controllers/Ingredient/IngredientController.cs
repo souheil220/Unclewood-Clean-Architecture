@@ -4,6 +4,7 @@ using UnclewoodCleanArchitectur.Presentation.Common.Enums;
 using UnclewoodCleanArchitectur.Presentation.DTOs;
 using UnclewoodCleanArchitectur.Presentation.Ingredient;
 using UnclewoodCleanArchitecture.Application.Ingredient.Commands.CreateIngredient;
+using UnclewoodCleanArchitecture.Application.Ingredient.Commands.DeleteIngredient;
 using UnclewoodCleanArchitecture.Application.Ingredient.Queries.GetIngredient;
 using UnclewoodCleanArchitecture.Application.Ingredient.Queries.ListIngredient;
 using DomainLocation = UnclewoodCleanArchitecture.Domain.Common.Enum.Location;
@@ -78,6 +79,13 @@ public class IngredientController : BaseApiController
 
     }
 
+    [HttpDelete("{ingredientId:guid}")]
+    public async Task<IActionResult> DeleteIngredient(Guid ingredientId)
+    {
+        var query = new DeleteIngredientCommand(ingredientId);
+        await _mediator.Send(query);
+        return NoContent();
+    }
     private static List<DomainLocation> EnumConverter(List<DomainLocation> locations)
     {
         List<DomainLocation> result = new();

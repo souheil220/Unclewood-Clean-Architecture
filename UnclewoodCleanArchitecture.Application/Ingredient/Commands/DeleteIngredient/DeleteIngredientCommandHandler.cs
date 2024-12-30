@@ -16,7 +16,7 @@ public class DeleteIngredientCommandHandler:IRequestHandler<DeleteIngredientComm
     }
     public async Task<bool> Handle(DeleteIngredientCommand request, CancellationToken cancellationToken)
     {
-        await _ingrediantsRepository.DeleteIngrediantAsync(request.Ingredient);
+        await _ingrediantsRepository.DeleteIngrediantAsync(request.IngredientId);
         await _unitOfWork.CommitChangesAsync();
         //TODO Change to return a result
         return true;

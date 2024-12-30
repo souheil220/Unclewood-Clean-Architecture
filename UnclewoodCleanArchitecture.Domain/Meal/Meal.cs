@@ -3,13 +3,13 @@ using UnclewoodCleanArchitecture.Domain.Common.Models;
 using UnclewoodCleanArchitecture.Domain.Common.ValueObject;
 using UnclewoodCleanArchitecture.Domain.Meal.Entities;
 using UnclewoodCleanArchitecture.Domain.Meal.Enums;
+using UnclewoodCleanArchitecture.Domain.Meal.Events;
 using UnclewoodCleanArchitecture.Domain.Meal.ValueObjects;
 
 namespace UnclewoodCleanArchitecture.Domain.Meal;
 
 public sealed class Meal : AggregateRoot
 {
-    
     public Meal( 
         Name name, 
         string description, 
@@ -69,9 +69,11 @@ public sealed class Meal : AggregateRoot
         if (ingredient is null)
         {
          //TODO   throw new DomainException("Ingredient not found in this meal");
+         return;
         }
-
         MealIngredients.Remove(ingredient);
+        
+        _domainEvents.Add(new IngredientRemovalEvent(ingredientId));
     }
 
     private void AddPrice(Price price)
@@ -103,7 +105,27 @@ public sealed class Meal : AggregateRoot
             AddPhoto(mealPhoto);
         }
     }
+
+    public void RemovePhoto(Guid photoId)
+    {
+        var photo = Photos.FirstOrDefault(ph => ph.Id == photoId);
+        
+        if (photo is null)
+        {
+            return; //TODO   throw new DomainException("Ingredient not found in this meal");
+        }
+
+        Photos.Remove(photo);
+    }
+
+    public void RaiseMealsListed()
+    {
+        _domainEvents.Add(new MealListedEvent(Id));
+    }
+    public void RaiseMealCreatedEvent()
+    {
+        _domainEvents.Add(new MealCreatedEvent(Id));
+    }
     
-    private Meal() : base(id:Guid.NewGuid())
-    {}
+    private Meal():base(Guid.NewGuid()){}
 }
