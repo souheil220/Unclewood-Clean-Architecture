@@ -1,18 +1,25 @@
 using AutoMapper;
 using MediatR;
 using UnclewoodCleanArchitecture.Application.Common.Interfaces;
+using UnclewoodCleanArchitecture.Application.Common.Interfaces.Command;
+using UnclewoodCleanArchitecture.Domain.Common;
 using UnclewoodCleanArchitecture.Domain.Common.ValueObject;
 using UnclewoodCleanArchitecture.Domain.Meal.ValueObjects;
 using UnclewoodCleanArchitecture.Domain.Meal.Entities;
+using UnclewoodCleanArchitecture.Domain.Meal.Errors;
 
 namespace UnclewoodCleanArchitecture.Application.Meal.Commands.CreateMeal;
 
 public class CreateMealCommandHandler(IMealRepository mealRepository, IUnitOfWork unitOfWork, IMapper mapper)
-    : IRequestHandler<CreateMealCommand, Domain.Meal.Meal>
+    : ICommandHandler<CreateMealCommand, Domain.Meal.Meal>
 {
-    public async Task<Domain.Meal.Meal> Handle(CreateMealCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Domain.Meal.Meal>> Handle(CreateMealCommand request, CancellationToken cancellationToken)
     {
-       
+        var mealExist = await mealRepository.MealExists(request.Name);
+        if (mealExist)
+        {
+            return Result.Failure<Domain.Meal.Meal>(MealErrors.MealAlreadyExist);
+        }
 
         var meal = new Domain.Meal.Meal(
             name: Name.Create(request.Name), 

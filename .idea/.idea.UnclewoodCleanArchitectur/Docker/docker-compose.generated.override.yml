@@ -1,0 +1,21 @@
+# This is a generated file. Not intended for manual editing.
+services:
+  UNCLEWOOD_API:
+    build:
+      context: "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur"
+      dockerfile: "UnclewoodCleanArchitectur/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/UnclewoodCleanArchitectur.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "unclewood_api:dev"
+    ports: []
+    volumes:
+    - "/Users/luxurysmartphone/.nuget/packages:/home/app/.nuget/packages"
+    - "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur:/app:rw"
+    - "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur:/src:rw"
+    working_dir: "/app"

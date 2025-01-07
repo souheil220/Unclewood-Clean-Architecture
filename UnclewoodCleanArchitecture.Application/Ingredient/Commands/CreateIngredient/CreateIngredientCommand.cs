@@ -1,4 +1,5 @@
 using MediatR;
+using UnclewoodCleanArchitecture.Application.Common.Interfaces.Command;
 using UnclewoodCleanArchitecture.Domain.Common.Enum;
 using UnclewoodCleanArchitecture.Domain.Ingredient.ValueObjects;
 
@@ -7,4 +8,4 @@ namespace UnclewoodCleanArchitecture.Application.Ingredient.Commands.CreateIngre
 public record CreateIngredientCommand(string Name,
     List<Location> DisponibleIn,
     Price Price
-     ): IRequest<Domain.Ingredient.Ingredient>;
+     ): ICommand<Domain.Ingredient.Ingredient>;

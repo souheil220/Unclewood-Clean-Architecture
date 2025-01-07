@@ -128,3 +128,6 @@
 /Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/System.Security.Permissions.dll
 /Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/UnclewoodCleanArchitecture.Presentation.dll
 /Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/UnclewoodCleanArchitecture.Presentation.pdb
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/Dapper.dll
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/FluentValidation.dll
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/FluentValidation.DependencyInjectionExtensions.dll

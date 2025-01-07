@@ -1,19 +1,18 @@
 using MediatR;
 using UnclewoodCleanArchitecture.Application.Common.Interfaces;
+using UnclewoodCleanArchitecture.Application.Common.Interfaces.Query;
 using UnclewoodCleanArchitecture.Application.Meal.Queries.ListMeals;
+using UnclewoodCleanArchitecture.Domain.Common;
 
 namespace UnclewoodCleanArchitecture.Application.Ingredient.Queries.ListIngredient;
 
-public class ListIngredientQueryHandler : IRequestHandler<ListIngredientQuery, IEnumerable<Domain.Ingredient.Ingredient>>
+public class ListIngredientQueryHandler(IIngrediantsRepository ingrediantsRepository)
+    : IQueryHandler<ListIngredientQuery, IEnumerable<Domain.Ingredient.Ingredient>>
 {
-    private readonly IIngrediantsRepository _ingrediantsRepository;
-    public ListIngredientQueryHandler(IIngrediantsRepository ingrediantsRepository)
+    public async Task<Result<IEnumerable<Domain.Ingredient.Ingredient>>> Handle(ListIngredientQuery request, CancellationToken cancellationToken)
     {
-        _ingrediantsRepository = ingrediantsRepository;
-    }
-    public async Task<IEnumerable<Domain.Ingredient.Ingredient>> Handle(ListIngredientQuery request, CancellationToken cancellationToken)
-    {
-        var ingrediants = await _ingrediantsRepository.GetIngrediantsAsync();
-        return ingrediants;
+        var ingredients = await ingrediantsRepository.GetIngrediantsAsync();
+        
+        return Result.Success(ingredients);
     }
 }

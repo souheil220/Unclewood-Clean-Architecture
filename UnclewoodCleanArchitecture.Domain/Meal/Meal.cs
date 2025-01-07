@@ -1,8 +1,11 @@
+using UnclewoodCleanArchitecture.Domain.Common;
 using UnclewoodCleanArchitecture.Domain.Common.Entities;
 using UnclewoodCleanArchitecture.Domain.Common.Models;
 using UnclewoodCleanArchitecture.Domain.Common.ValueObject;
+using UnclewoodCleanArchitecture.Domain.Ingredient.Errors;
 using UnclewoodCleanArchitecture.Domain.Meal.Entities;
 using UnclewoodCleanArchitecture.Domain.Meal.Enums;
+using UnclewoodCleanArchitecture.Domain.Meal.Errors;
 using UnclewoodCleanArchitecture.Domain.Meal.Events;
 using UnclewoodCleanArchitecture.Domain.Meal.ValueObjects;
 
@@ -44,14 +47,15 @@ public sealed class Meal : AggregateRoot
     
    public List<Photo> Photos { get; private set; } = new();
     
-    private void AddIngredient(Guid ingredientId)
+    private Result AddIngredient(Guid ingredientId)
     {
         if (MealIngredients.Any(mi => mi.IngredientId == ingredientId))
         {
-            //TODO throw new DomainException("This ingredient is already added to the meal");
+            return Result.Failure(IngredientErrors.IngredientAlreadyExist);
         }
         
         MealIngredients.Add(new MealIngredient(Id, ingredientId));
+        return Result.Success();
     }
 
     public void AddIngredients(IEnumerable<Guid> ingredientIds)
@@ -62,18 +66,19 @@ public sealed class Meal : AggregateRoot
         }
     }
 
-    public void RemoveIngredient(Guid ingredientId)
+    public Result RemoveIngredient(Guid ingredientId)
     {
         var ingredient = MealIngredients.FirstOrDefault(mi => mi.IngredientId == ingredientId);
         
         if (ingredient is null)
         {
-         //TODO   throw new DomainException("Ingredient not found in this meal");
-         return;
+         return Result.Failure(IngredientErrors.IngredientNotFound);
         }
         MealIngredients.Remove(ingredient);
         
         _domainEvents.Add(new IngredientRemovalEvent(ingredientId));
+
+        return Result.Success();
     }
 
     private void AddPrice(Price price)
@@ -88,14 +93,15 @@ public sealed class Meal : AggregateRoot
             AddPrice(price);
         }
     }
-    private void AddPhoto(Photo photo)
+    private Result AddPhoto(Photo photo)
     {
         if (Photos.Any(ph => ph.Url == photo.Url))
         {
-            //TODO throw new DomainException("This ingredient is already added to the meal");
+            return Result.Failure(MealErrors.PhotoAlreadyExist);
         }
         
         Photos.Add(Photo.Create(photo.Url,"",photo.Name,""));
+        return Result.Success();
     }
     
     public void AddPhotos(List<Photo> mealPhotos)
@@ -106,16 +112,18 @@ public sealed class Meal : AggregateRoot
         }
     }
 
-    public void RemovePhoto(Guid photoId)
+    public Result RemovePhoto(Guid photoId)
     {
         var photo = Photos.FirstOrDefault(ph => ph.Id == photoId);
         
         if (photo is null)
         {
-            return; //TODO   throw new DomainException("Ingredient not found in this meal");
+            return Result.Failure(MealErrors.PhotoNotFound);
         }
 
         Photos.Remove(photo);
+
+        return Result.Success();
     }
 
     public void RaiseMealsListed()

@@ -32,10 +32,10 @@ public class IngredientController : BaseApiController
         
         return Ok(new IngredientResponse(
             new IngredientDto(
-                createIngredientResult.Id,
-                createIngredientResult.Name,
-                ToDto(createIngredientResult.DisponibleIn),
-                createIngredientResult.Price.Value)));
+                createIngredientResult.Value.Id,
+                createIngredientResult.Value.Name,
+                ToDto(createIngredientResult.Value.DisponibleIn),
+                createIngredientResult.Value.Price.Value)));
         
         
     }
@@ -49,10 +49,10 @@ public class IngredientController : BaseApiController
 
         return Ok(new IngredientResponse(
             new IngredientDto(
-                getIngredientsResult.Id,
-                getIngredientsResult.Name,
-                ToDto(getIngredientsResult.DisponibleIn),
-                getIngredientsResult.Price.Value)));
+                getIngredientsResult.Value.Id,
+                getIngredientsResult.Value.Name,
+                ToDto(getIngredientsResult.Value.DisponibleIn),
+                getIngredientsResult.Value.Price.Value)));
 
     }
     
@@ -65,7 +65,7 @@ public class IngredientController : BaseApiController
 
        List<IngredientResponse> ingredientResponses = new ();
 
-       foreach (var ingredient in getIngredientsResult)
+       foreach (var ingredient in getIngredientsResult.Value)
        {
            ingredientResponses.Add(new IngredientResponse(
                                     new IngredientDto(ingredient.Id, 

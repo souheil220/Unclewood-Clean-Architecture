@@ -1,4 +1,4 @@
-using MediatR;
+using UnclewoodCleanArchitecture.Application.Common.Interfaces.Command;
 using UnclewoodCleanArchitecture.Application.DTOS;
 using UnclewoodCleanArchitecture.Domain.Meal.Enums;
 
@@ -13,4 +13,4 @@ public record CreateMealCommand(
     double PromotionRate,
     List<PhotoDto> MealPictures,
     List<Guid> IngrediantsIDs,
-    Category Category ): IRequest<Domain.Meal.Meal>;
+    Category Category ): ICommand<Domain.Meal.Meal>;

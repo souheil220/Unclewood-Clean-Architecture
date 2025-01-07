@@ -1,5 +1,6 @@
 using MediatR;
+using UnclewoodCleanArchitecture.Application.Common.Interfaces.Query;
 
 namespace UnclewoodCleanArchitecture.Application.Meal.Queries.ListMeals;
 
-public record ListMealQuery : IRequest<IEnumerable<Domain.Meal.Meal>>;
+public record ListMealQuery : IQuery<IEnumerable<Domain.Meal.Meal>>;

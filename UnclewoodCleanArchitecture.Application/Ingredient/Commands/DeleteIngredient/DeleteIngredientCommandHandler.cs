@@ -1,10 +1,10 @@
-using MediatR;
 using UnclewoodCleanArchitecture.Application.Common.Interfaces;
-using UnclewoodCleanArchitecture.Application.Meal.Commands.DeleteMeal;
+using UnclewoodCleanArchitecture.Application.Common.Interfaces.Command;
+using UnclewoodCleanArchitecture.Domain.Common;
 
 namespace UnclewoodCleanArchitecture.Application.Ingredient.Commands.DeleteIngredient;
 
-public class DeleteIngredientCommandHandler:IRequestHandler<DeleteIngredientCommand, bool>
+public class DeleteIngredientCommandHandler:ICommandHandler<DeleteIngredientCommand>
 {
     private readonly IIngrediantsRepository _ingrediantsRepository;
     private readonly IUnitOfWork _unitOfWork;
@@ -14,11 +14,18 @@ public class DeleteIngredientCommandHandler:IRequestHandler<DeleteIngredientComm
         _ingrediantsRepository = ingrediants;
         _unitOfWork = unitOfWork;
     }
-    public async Task<bool> Handle(DeleteIngredientCommand request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(DeleteIngredientCommand request, CancellationToken cancellationToken)
     {
-        await _ingrediantsRepository.DeleteIngrediantAsync(request.IngredientId);
-        await _unitOfWork.CommitChangesAsync();
-        //TODO Change to return a result
-        return true;
+        try
+        {
+            await _ingrediantsRepository.DeleteIngrediantAsync(request.IngredientId);
+            await _unitOfWork.CommitChangesAsync();
+            return Result.Success();
+        }
+        catch (Exception e)
+        {
+           return Result.Failure<Domain.Ingredient.Ingredient>(new Error("Exception",e.Message));
+        }
+       
     }
 }

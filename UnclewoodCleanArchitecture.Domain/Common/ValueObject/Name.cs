@@ -32,7 +32,7 @@ public sealed class Name : Models.ValueObject
         }
         value = value.Trim();
         
-        return new Name(value);
+        return new Name(value.ToLower());
     }
     public static Name CreateUnvalidated(string value)
     {

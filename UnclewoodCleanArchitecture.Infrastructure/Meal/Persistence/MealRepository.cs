@@ -44,7 +44,7 @@ public class MealRepository : IMealRepository
 
     public async Task<bool> MealExists(string mealName)
     {
-        return await _dbContext.Meals.AnyAsync(x => x.Name == mealName);
+        return await _dbContext.Meals.AnyAsync(x => x.Name == mealName.ToLower());
     }
 
     public async Task AddMealAsync(Domain.Meal.Meal meal)

@@ -1,11 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "9H2tOAet0ts=",
+  "dgSpecHash": "Dt0Ivgaw2Jc=",
   "success": true,
   "projectFilePath": "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/UnclewoodCleanArchitectur.csproj",
   "expectedPackageFiles": [
     "/Users/luxurysmartphone/.nuget/packages/ardalis.smartenum/8.2.0/ardalis.smartenum.8.2.0.nupkg.sha512",
     "/Users/luxurysmartphone/.nuget/packages/automapper/13.0.1/automapper.13.0.1.nupkg.sha512",
+    "/Users/luxurysmartphone/.nuget/packages/dapper/2.1.35/dapper.2.1.35.nupkg.sha512",
+    "/Users/luxurysmartphone/.nuget/packages/fluentvalidation/11.11.0/fluentvalidation.11.11.0.nupkg.sha512",
+    "/Users/luxurysmartphone/.nuget/packages/fluentvalidation.dependencyinjectionextensions/11.11.0/fluentvalidation.dependencyinjectionextensions.11.11.0.nupkg.sha512",
     "/Users/luxurysmartphone/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/Users/luxurysmartphone/.nuget/packages/mediatr/12.4.1/mediatr.12.4.1.nupkg.sha512",
     "/Users/luxurysmartphone/.nuget/packages/mediatr.contracts/2.0.1/mediatr.contracts.2.0.1.nupkg.sha512",

@@ -1,3 +1,4 @@
+using UnclewoodCleanArchitectur.Presentation.Extention;
 using UnclewoodCleanArchitecture.Application;
 using UnclewoodCleanArchitecture.Infrastructure;
 using UnclewoodCleanArchitecture.Infrastructure.Common.Middleware;
@@ -13,7 +14,8 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services
     .AddApplication()
-    .AddInfrastructure();
+    .AddInfrastructure(builder.Configuration);
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddSwaggerGen(c =>
 {
@@ -23,6 +25,7 @@ builder.Services.AddSwaggerGen(c =>
 var app = builder.Build();
 
 app.AddInfrastructureMiddleware();
+app.AddPresentationMiddleware();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

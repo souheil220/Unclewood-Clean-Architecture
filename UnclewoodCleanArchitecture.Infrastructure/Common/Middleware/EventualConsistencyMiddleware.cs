@@ -7,8 +7,6 @@ namespace UnclewoodCleanArchitecture.Infrastructure.Common.Middleware;
 
 public class EventualConsistencyMiddleware(RequestDelegate next)
 {
-    private readonly RequestDelegate _next = next;
-
     public async Task Invoke(HttpContext context, IPublisher publisher, UnclewoodDbContext dbContext )
     {
         var transaction = await dbContext.Database.BeginTransactionAsync();
@@ -37,6 +35,6 @@ public class EventualConsistencyMiddleware(RequestDelegate next)
             
            
         });
-        await _next(context);
+        await next(context);
     }
 }

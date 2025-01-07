@@ -29,7 +29,7 @@ public class MealController : BaseApiController
     }
     
     [HttpPost]
-    public async Task<ActionResult> CreateMeal([FromBody] CreateMealRequest mealRequest)
+    public async Task<ActionResult> CreateMeal([FromBody] CreateMealRequest mealRequest,CancellationToken concellationToken)
     {
         if (!DomainCategory.TryFromName(
                 mealRequest.Category.ToString(),
@@ -49,21 +49,26 @@ public class MealController : BaseApiController
             mealRequest.IngrediantsIDs,
             category);
         
-        var createMealResult = await _mediator.Send(command);
+        var createMealResult = await _mediator.Send(command,concellationToken);
+
+        if (createMealResult.IsFailure)
+        {
+            return BadRequest(createMealResult.Error);
+        }
         
-        var prices = _mapper.Map<ICollection<PriceDto>>(createMealResult.Prices);
-        var mealIngredients =  _mapper.Map<List<MealIngredientDto>>(createMealResult.MealIngredients);
-        var mealPhotos =  _mapper.Map<List<PhotoDto>>(createMealResult.Photos);
+        var prices = _mapper.Map<ICollection<PriceDto>>(createMealResult.Value.Prices);
+        var mealIngredients =  _mapper.Map<List<MealIngredientDto>>(createMealResult.Value.MealIngredients);
+        var mealPhotos =  _mapper.Map<List<PhotoDto>>(createMealResult.Value.Photos);
         
         return Ok(new MealResponse(
             new MealDto(
-                Id:createMealResult.Id,
-                Name:createMealResult.Name.Value,
-                Description:createMealResult.Description,
-                BestSeller:createMealResult.BestSeller,
-                Promotion: createMealResult.Promotion,
-                PromotionRate: createMealResult.PromotionRate,
-                Category: ToDto(createMealResult.Category),
+                Id:createMealResult.Value.Id,
+                Name:createMealResult.Value.Name.Value,
+                Description:createMealResult.Value.Description,
+                BestSeller:createMealResult.Value.BestSeller,
+                Promotion: createMealResult.Value.Promotion,
+                PromotionRate: createMealResult.Value.PromotionRate,
+                Category: ToDto(createMealResult.Value.Category),
                 Prices : prices,
                 Ingrediants: mealIngredients,
                 Photos: mealPhotos)));
@@ -75,20 +80,25 @@ public class MealController : BaseApiController
         var query = new GetMealQuery(mealId);
 
         var getMealResult = await _mediator.Send(query);
+
+        if (getMealResult.IsFailure)
+        {
+            return BadRequest(getMealResult.Error);
+        }
         
-        var prices = _mapper.Map<ICollection<PriceDto>>(getMealResult.Prices);
-        var mealIngredients =  _mapper.Map<List<MealIngredientDto>>(getMealResult.MealIngredients);
-        var mealPhotos =  _mapper.Map<List<PhotoDto>>(getMealResult.Photos);
+        var prices = _mapper.Map<ICollection<PriceDto>>(getMealResult.Value.Prices);
+        var mealIngredients =  _mapper.Map<List<MealIngredientDto>>(getMealResult.Value.MealIngredients);
+        var mealPhotos =  _mapper.Map<List<PhotoDto>>(getMealResult.Value.Photos);
 
         return Ok(new MealResponse(
             new MealDto(
-                Id:getMealResult.Id,
-                Name:getMealResult.Name.Value,
-                Description:getMealResult.Description,
-                BestSeller:getMealResult.BestSeller,
-                Promotion: getMealResult.Promotion,
-                PromotionRate: getMealResult.PromotionRate,
-                Category: ToDto(getMealResult.Category),
+                Id:getMealResult.Value.Id,
+                Name:getMealResult.Value.Name.Value,
+                Description:getMealResult.Value.Description,
+                BestSeller:getMealResult.Value.BestSeller,
+                Promotion: getMealResult.Value.Promotion,
+                PromotionRate: getMealResult.Value.PromotionRate,
+                Category: ToDto(getMealResult.Value.Category),
                 Prices : prices,
                 Ingrediants: mealIngredients,
                 Photos: mealPhotos)));
@@ -105,7 +115,7 @@ public class MealController : BaseApiController
         List<MealResponse> mealResponses = new ();
         
 
-        foreach (var meal in getMealsResult)
+        foreach (var meal in getMealsResult.Value)
         {
             var prices = _mapper.Map<ICollection<PriceDto>>(meal.Prices);
             var mealIngredients =  _mapper.Map<List<MealIngredientDto>>(meal.MealIngredients);

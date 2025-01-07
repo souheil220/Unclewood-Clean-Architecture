@@ -159,11 +159,9 @@ namespace UnclewoodCleanArchitecture.Infrastructure.Database.Migrations
                             b1.Property<Guid>("MealId")
                                 .HasColumnType("uuid");
 
-                            b1.Property<int>("Id1")
+                            b1.Property<Guid>("Id")
                                 .ValueGeneratedOnAdd()
-                                .HasColumnType("integer");
-
-                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id1"));
+                                .HasColumnType("uuid");
 
                             b1.Property<string>("ContainerName")
                                 .IsRequired()
@@ -185,7 +183,7 @@ namespace UnclewoodCleanArchitecture.Infrastructure.Database.Migrations
                                 .HasMaxLength(2048)
                                 .HasColumnType("character varying(2048)");
 
-                            b1.HasKey("MealId", "Id1");
+                            b1.HasKey("MealId", "Id");
 
                             b1.ToTable("Photo");
 

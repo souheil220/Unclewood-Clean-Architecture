@@ -3,11 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using UnclewoodCleanArchitecture.Application.Common.Interfaces;
 using UnclewoodCleanArchitecture.Domain.Common.Entities;
-using UnclewoodCleanArchitecture.Domain.Common.Enum;
 using UnclewoodCleanArchitecture.Domain.Common.Events;
 using UnclewoodCleanArchitecture.Domain.Common.Models;
-using UnclewoodCleanArchitecture.Domain.Common.ValueObject;
-using UnclewoodCleanArchitecture.Domain.Meal.ValueObjects;
 
 namespace UnclewoodCleanArchitecture.Infrastructure.Common.Persistence;
 

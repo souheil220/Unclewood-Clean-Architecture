@@ -6,11 +6,9 @@ namespace UnclewoodCleanArchitecture.Application.Events;
 
 public class MealCreationEventHandler(IMealRepository mealRepository) : INotificationHandler<MealCreatedEvent>
 {
-    private readonly IMealRepository _mealRepository = mealRepository;
-
     public async Task Handle(MealCreatedEvent notification, CancellationToken cancellationToken)
     {
-        var meal  = await _mealRepository.GetMealByGuidAsync(notification.MealId)
+        var meal  = await mealRepository.GetMealByGuidAsync(notification.MealId)
             ?? throw new ApplicationException($"Meal with id {notification.MealId} does not exist.");
         
         // Perform side effects (notifications, logging, etc.)
