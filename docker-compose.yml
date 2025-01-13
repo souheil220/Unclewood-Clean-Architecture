@@ -9,10 +9,19 @@
       - DB_HOST=mssql
       - DB_NAME=unclewood
       - DB_PASSWORD=Password1*
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=Machen220-714
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/dockerdemo.pfx
     ports:
-      - "5001:8080"
+      - "5132:80"  # HTTP
+      - "7220:443" # HTTPS
     depends_on:
       - UNCLEWOOD_DB
+    networks:
+      - unclewood
+    volumes:
+      - ~/.aspnet/https:/https:ro
   
   UNCLEWOOD_DB:
     container_name: UNCLEWOOD_DB
@@ -26,27 +35,30 @@
       - POSTGRES_PASSWORD=souhil433@
     ports:
       - "5432:5432"
+    networks:
+      - unclewood
   
   UNCLEWOOD_IDP:
-    image: keycloak/keycloak:latest
+    image: quay.io/keycloak/keycloak:latest
     container_name: UNCLEWOOD_Identity
     environment:
-      KC_HOSTNAME: localhost
-      KC_HOSTNAME_PORT: 7080
       KC_HOSTNAME_STRICT_BACKCHANNEL: "true"
-      KC_BOOTSTRAP_ADMIN_USERNAME: admin
-      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_BOOTSTRAP_ADMIN_USERNAME : admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD : admin
       KC_HEALTH_ENABLED: "true"
       KC_LOG_LEVEL: info
     volumes:
-      - ./.containers/identity:/opt/keycloak/keycloak/standalone/data
-      - ./files/unclewood-realm-export.json:/opt/keycloak/data/import
+      - ./.container/identity:/opt/keycloak/keycloak/standalone/data
+      - ./files/unclewood-realm-export.json:/opt/keycloak/data/import/unclewood-realm-export.json
     ports:
-      - "7080:7080"
-      - "7443:7443"
+      - 18080:8080
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:7080/health/ready" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:18080/health/ready" ]
       interval: 15s
       timeout: 2s
       retries: 15
-    command: [ "start-dev", "--http-port", "7080", "--https-port", "7443","--import-realm"  ]
+    command: start-dev --import-realm
+    networks:
+      - unclewood
+networks:
+  unclewood:

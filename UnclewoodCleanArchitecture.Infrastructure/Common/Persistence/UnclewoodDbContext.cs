@@ -14,6 +14,8 @@ public class UnclewoodDbContext(DbContextOptions options,IHttpContextAccessor ht
     public DbSet<Domain.Meal.Meal> Meals { get; set; } = null!;
     public DbSet<Domain.Ingredient.Ingredient> Ingredients { get; set; } = null!;
     
+    public DbSet<Domain.User.User> Users { get; set; } = null!;
+    
     public DbSet<MealIngredient> MealIngrediants { get; set; }
 
 

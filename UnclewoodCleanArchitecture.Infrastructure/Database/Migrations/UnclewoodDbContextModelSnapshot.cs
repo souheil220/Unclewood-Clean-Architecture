@@ -22,6 +22,21 @@ namespace UnclewoodCleanArchitecture.Infrastructure.Database.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("RoleUser", b =>
+                {
+                    b.Property<int>("RolesId")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("UsersId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("RolesId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("RoleUser");
+                });
+
             modelBuilder.Entity("UnclewoodCleanArchitecture.Domain.Common.Entities.MealIngredient", b =>
                 {
                     b.Property<Guid>("MealId")
@@ -79,6 +94,92 @@ namespace UnclewoodCleanArchitecture.Infrastructure.Database.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Meals");
+                });
+
+            modelBuilder.Entity("UnclewoodCleanArchitecture.Domain.User.Permission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int?>("RoleId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("Permission");
+                });
+
+            modelBuilder.Entity("UnclewoodCleanArchitecture.Domain.User.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Role");
+                });
+
+            modelBuilder.Entity("UnclewoodCleanArchitecture.Domain.User.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("IdentityId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("IdentityId")
+                        .IsUnique();
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("RoleUser", b =>
+                {
+                    b.HasOne("UnclewoodCleanArchitecture.Domain.User.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UnclewoodCleanArchitecture.Domain.User.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("UnclewoodCleanArchitecture.Domain.Common.Entities.MealIngredient", b =>
@@ -229,6 +330,13 @@ namespace UnclewoodCleanArchitecture.Infrastructure.Database.Migrations
                     b.Navigation("Prices");
                 });
 
+            modelBuilder.Entity("UnclewoodCleanArchitecture.Domain.User.Permission", b =>
+                {
+                    b.HasOne("UnclewoodCleanArchitecture.Domain.User.Role", null)
+                        .WithMany("Permissions")
+                        .HasForeignKey("RoleId");
+                });
+
             modelBuilder.Entity("UnclewoodCleanArchitecture.Domain.Ingredient.Ingredient", b =>
                 {
                     b.Navigation("MealIngrediants");
@@ -237,6 +345,11 @@ namespace UnclewoodCleanArchitecture.Infrastructure.Database.Migrations
             modelBuilder.Entity("UnclewoodCleanArchitecture.Domain.Meal.Meal", b =>
                 {
                     b.Navigation("MealIngredients");
+                });
+
+            modelBuilder.Entity("UnclewoodCleanArchitecture.Domain.User.Role", b =>
+                {
+                    b.Navigation("Permissions");
                 });
 #pragma warning restore 612, 618
         }

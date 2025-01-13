@@ -34,5 +34,8 @@ public abstract class Entity
         return Id.GetHashCode();
     }
     
-    
+    protected void RaiseDomainEvent(IDomainEvent domainEvent)
+    {
+        _domainEvents.Add(domainEvent);
+    }
 }

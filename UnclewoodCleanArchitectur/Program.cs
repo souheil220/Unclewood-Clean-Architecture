@@ -27,6 +27,29 @@ var app = builder.Build();
 app.AddInfrastructureMiddleware();
 app.AddPresentationMiddleware();
 
+app.Use(async (context, next) =>
+{
+    if (context.User?.Identity?.IsAuthenticated ?? false)
+    {
+        Console.WriteLine("User is authenticated");
+        foreach (var claim in context.User.Claims)
+        {
+            Console.WriteLine($"Claim: {claim.Type} = {claim.Value}");
+        }
+    }
+    else
+    {  
+        Console.WriteLine("User is not authenticated");
+        var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+        Console.WriteLine($"Token present: {!string.IsNullOrEmpty(token)}"); 
+        Console.WriteLine(token); 
+    }
+    
+    await next();
+});
+
+
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -35,8 +58,9 @@ if (app.Environment.IsDevelopment())
     
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

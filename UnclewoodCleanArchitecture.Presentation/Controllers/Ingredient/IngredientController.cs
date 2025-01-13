@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UnclewoodCleanArchitectur.Presentation.Common.Enums;
 using UnclewoodCleanArchitectur.Presentation.DTOs;
@@ -11,6 +12,7 @@ using DomainLocation = UnclewoodCleanArchitecture.Domain.Common.Enum.Location;
 
 namespace UnclewoodCleanArchitectur.Presentation.Controllers.Ingredient;
 
+[Authorize]
 public class IngredientController : BaseApiController
 {
     private readonly ISender _mediator;
@@ -19,7 +21,7 @@ public class IngredientController : BaseApiController
     {
         _mediator = mediator;
     }
-    
+   
     [HttpPost]
     public async Task<ActionResult> CreateIngrediant([FromBody] CreateIngridientRequest ingrediantRequest)
     {
@@ -39,6 +41,7 @@ public class IngredientController : BaseApiController
         
         
     }
+    
 
     [HttpGet("{ingredientId:guid}")]
     public async Task<IActionResult> GetIngredient(Guid ingredientId)
@@ -74,11 +77,9 @@ public class IngredientController : BaseApiController
                                                     ingredient.Price.Value 
                                                     )));
        }
-
         return  ingredientResponses;
-
     }
-
+    
     [HttpDelete("{ingredientId:guid}")]
     public async Task<IActionResult> DeleteIngredient(Guid ingredientId)
     {
@@ -86,6 +87,7 @@ public class IngredientController : BaseApiController
         await _mediator.Send(query);
         return NoContent();
     }
+    
     private static List<DomainLocation> EnumConverter(List<DomainLocation> locations)
     {
         List<DomainLocation> result = new();

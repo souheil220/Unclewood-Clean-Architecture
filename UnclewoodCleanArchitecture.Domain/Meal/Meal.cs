@@ -3,6 +3,7 @@ using UnclewoodCleanArchitecture.Domain.Common.Entities;
 using UnclewoodCleanArchitecture.Domain.Common.Models;
 using UnclewoodCleanArchitecture.Domain.Common.ValueObject;
 using UnclewoodCleanArchitecture.Domain.Ingredient.Errors;
+using UnclewoodCleanArchitecture.Domain.Ingredient.Events;
 using UnclewoodCleanArchitecture.Domain.Meal.Entities;
 using UnclewoodCleanArchitecture.Domain.Meal.Enums;
 using UnclewoodCleanArchitecture.Domain.Meal.Errors;
