@@ -8,6 +8,8 @@ public interface IUserRepository
     Task<User?> GetByIdAsync(Guid guid,CancellationToken cancellationToken = default);
     
     //Task<PagedList<MemberDTO>> GetMembersAsync(UserParams userParams);
-    void AddUser (User user);
-    void DeleteUser(User user);
+    
+    Task<List<User>> GetAllUsersAsync(CancellationToken cancellationToken = default);
+    Task AddUser (User user);
+    Task DeleteUserAsync(Guid userId);
 }

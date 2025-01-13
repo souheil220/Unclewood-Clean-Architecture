@@ -19,7 +19,6 @@ public class DeleteMealCommandHandler:ICommandHandler<DeleteMealCommand>
     {
         await _mealRepository.DeleteMealAsync(request.MealId);
         await _unitOfWork.CommitChangesAsync();
-        //TODO Change to return a result
         return Result.Success();
     }
 }

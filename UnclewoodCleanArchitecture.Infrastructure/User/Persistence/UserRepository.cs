@@ -26,14 +26,23 @@ public class UserRepository : IUserRepository
            .FirstOrDefaultAsync(x => x.Id == guid, cancellationToken);
     }
 
-    public async void AddUser(Domain.User.User user)
+    public async Task<List<Domain.User.User>> GetAllUsersAsync(CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.Users.ToListAsync(cancellationToken);
+    }
+
+    public async Task AddUser(Domain.User.User user)
     {
         await _dbContext.Users.AddAsync(user);
     }
-    
 
-    public  void DeleteUser(Domain.User.User user)
+    public async Task DeleteUserAsync(Guid userId)
     {
+        var user = await _dbContext.Users.FindAsync(userId);
+        if (user == null)
+        {
+            throw new KeyNotFoundException($"User with ID {userId} not found.");
+        }
         _dbContext.Users.Remove(user);
     }
 }

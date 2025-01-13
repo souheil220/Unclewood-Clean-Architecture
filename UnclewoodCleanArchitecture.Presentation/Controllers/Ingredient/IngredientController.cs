@@ -26,9 +26,11 @@ public class IngredientController : BaseApiController
     public async Task<ActionResult> CreateIngrediant([FromBody] CreateIngridientRequest ingrediantRequest)
     {
         var command = new CreateIngredientCommand(
-            ingrediantRequest.Name.Value,
-            EnumConverter(ingrediantRequest.DisponibleIn),
-            ingrediantRequest.Price);
+            ingrediantRequest.Name,
+            ingrediantRequest.DisponibleIn,
+            ingrediantRequest.PriceValue,
+            ingrediantRequest.PriceCurrency
+            );
         
         var createIngredientResult = await _mediator.Send(command);
         
@@ -88,18 +90,6 @@ public class IngredientController : BaseApiController
         return NoContent();
     }
     
-    private static List<DomainLocation> EnumConverter(List<DomainLocation> locations)
-    {
-        List<DomainLocation> result = new();
-        foreach (var location in locations)
-        {
-            DomainLocation.TryFromName(
-                location.ToString(),
-                out var newLocation);
-            result.Add(newLocation);
-        }
-        return result;
-    }
 
     private static List<Location> ToDto(List<DomainLocation> locations)
     {

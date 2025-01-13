@@ -5,5 +5,5 @@ using DomainPrice = UnclewoodCleanArchitecture.Domain.Ingredient.ValueObjects.Pr
 
 namespace UnclewoodCleanArchitectur.Presentation.Ingredient;
 
-public record CreateIngridientRequest(Name Name, List<DomainLocation> DisponibleIn,
-    DomainPrice Price);
+public record CreateIngridientRequest(string Name, List<string> DisponibleIn,
+    decimal PriceValue, string PriceCurrency);

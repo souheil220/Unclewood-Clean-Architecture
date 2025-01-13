@@ -6,6 +6,7 @@ using UnclewoodCleanArchitecture.Domain.Ingredient.ValueObjects;
 namespace UnclewoodCleanArchitecture.Application.Ingredient.Commands.CreateIngredient;
 
 public record CreateIngredientCommand(string Name,
-    List<Location> DisponibleIn,
-    Price Price
+    List<string> DisponibleIn,
+    decimal PriceValue,
+    string PriceCurrency
      ): ICommand<Domain.Ingredient.Ingredient>;

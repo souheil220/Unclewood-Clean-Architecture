@@ -34,7 +34,7 @@ public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand , 
 
         user.SetIdentityId(identityId);
 
-        _userRepository.AddUser(user);
+       await _userRepository.AddUser(user);
 
         await _unitOfWork.CommitChangesAsync();
 
