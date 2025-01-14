@@ -52,6 +52,76 @@ namespace UnclewoodCleanArchitecture.Infrastructure.Database.Migrations
                     b.ToTable("MealIngrediants");
                 });
 
+            modelBuilder.Entity("UnclewoodCleanArchitecture.Domain.Common.Entities.RolePermission", b =>
+                {
+                    b.Property<int>("RoleId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("PermissionId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("RoleId", "PermissionId");
+
+                    b.ToTable("RolePermission");
+
+                    b.HasData(
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 1
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 6
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 7
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 3
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 2
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 4
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 5
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 8
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            PermissionId = 6
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            PermissionId = 7
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            PermissionId = 2
+                        });
+                });
+
             modelBuilder.Entity("UnclewoodCleanArchitecture.Domain.Ingredient.Ingredient", b =>
                 {
                     b.Property<Guid>("Id")
@@ -96,7 +166,7 @@ namespace UnclewoodCleanArchitecture.Infrastructure.Database.Migrations
                     b.ToTable("Meals");
                 });
 
-            modelBuilder.Entity("UnclewoodCleanArchitecture.Domain.User.Permission", b =>
+            modelBuilder.Entity("UnclewoodCleanArchitecture.Domain.Permission.Permission", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -108,17 +178,54 @@ namespace UnclewoodCleanArchitecture.Infrastructure.Database.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("RoleId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
 
                     b.ToTable("Permission");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "mealdelete"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "mealadd"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "ingredientread"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "ingredientdelete"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "ingredientadd"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "userread"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "userdelete"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "useradd"
+                        });
                 });
 
-            modelBuilder.Entity("UnclewoodCleanArchitecture.Domain.User.Role", b =>
+            modelBuilder.Entity("UnclewoodCleanArchitecture.Domain.Role.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -132,7 +239,19 @@ namespace UnclewoodCleanArchitecture.Infrastructure.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role");
+                    b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 2,
+                            Name = "manager"
+                        },
+                        new
+                        {
+                            Id = 1,
+                            Name = "admin"
+                        });
                 });
 
             modelBuilder.Entity("UnclewoodCleanArchitecture.Domain.User.User", b =>
@@ -169,7 +288,7 @@ namespace UnclewoodCleanArchitecture.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("RoleUser", b =>
                 {
-                    b.HasOne("UnclewoodCleanArchitecture.Domain.User.Role", null)
+                    b.HasOne("UnclewoodCleanArchitecture.Domain.Role.Role", null)
                         .WithMany()
                         .HasForeignKey("RolesId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -330,13 +449,6 @@ namespace UnclewoodCleanArchitecture.Infrastructure.Database.Migrations
                     b.Navigation("Prices");
                 });
 
-            modelBuilder.Entity("UnclewoodCleanArchitecture.Domain.User.Permission", b =>
-                {
-                    b.HasOne("UnclewoodCleanArchitecture.Domain.User.Role", null)
-                        .WithMany("Permissions")
-                        .HasForeignKey("RoleId");
-                });
-
             modelBuilder.Entity("UnclewoodCleanArchitecture.Domain.Ingredient.Ingredient", b =>
                 {
                     b.Navigation("MealIngrediants");
@@ -345,11 +457,6 @@ namespace UnclewoodCleanArchitecture.Infrastructure.Database.Migrations
             modelBuilder.Entity("UnclewoodCleanArchitecture.Domain.Meal.Meal", b =>
                 {
                     b.Navigation("MealIngredients");
-                });
-
-            modelBuilder.Entity("UnclewoodCleanArchitecture.Domain.User.Role", b =>
-                {
-                    b.Navigation("Permissions");
                 });
 #pragma warning restore 612, 618
         }

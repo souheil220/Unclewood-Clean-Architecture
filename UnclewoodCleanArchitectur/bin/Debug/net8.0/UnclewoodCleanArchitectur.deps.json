@@ -1800,7 +1800,8 @@
           "MediatR": "12.4.1",
           "Microsoft.AspNetCore.Mvc": "2.2.0",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.2",
-          "UnclewoodCleanArchitecture.Application": "1.0.0"
+          "UnclewoodCleanArchitecture.Application": "1.0.0",
+          "UnclewoodCleanArchitecture.Infrastructure": "1.0.0"
         },
         "runtime": {
           "UnclewoodCleanArchitecture.Presentation.dll": {}

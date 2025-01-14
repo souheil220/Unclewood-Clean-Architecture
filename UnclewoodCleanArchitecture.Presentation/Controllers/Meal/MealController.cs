@@ -1,15 +1,13 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using UnclewoodCleanArchitectur.Presentation.Common.Enums;
-using UnclewoodCleanArchitectur.Presentation.DTOs;
 using UnclewoodCleanArchitectur.Presentation.Meal;
 using UnclewoodCleanArchitecture.Application.DTOS;
 using UnclewoodCleanArchitecture.Application.Meal.Commands.CreateMeal;
 using UnclewoodCleanArchitecture.Application.Meal.Commands.DeleteMeal;
 using UnclewoodCleanArchitecture.Application.Meal.Queries.GetMeal;
 using UnclewoodCleanArchitecture.Application.Meal.Queries.ListMeals;
-using DomainCategory = UnclewoodCleanArchitecture.Domain.Meal.Enums.Category;
+using UnclewoodCleanArchitecture.Infrastructure.Authorization;
 
 
 
@@ -24,22 +22,15 @@ public class MealController : BaseApiController
     {
         _mediator = mediator;
         _mapper = mapper;
-        
-
     }
     
     [HttpPost]
+    [HasPermission(Permissions.MealAdd)]
     public async Task<ActionResult> CreateMeal([FromBody] CreateMealRequest mealRequest,CancellationToken concellationToken)
     {
-        if (!DomainCategory.TryFromName(
-                mealRequest.Category.ToString(),
-                out var category))
-        {
-           return BadRequest("Could not Convert");
-        }
 
         var command = new CreateMealCommand(
-            mealRequest.Name.Value,
+            mealRequest.Name,
             mealRequest.Prices,
             mealRequest.Description,
             mealRequest.BestSeller,
@@ -47,7 +38,7 @@ public class MealController : BaseApiController
             mealRequest.PromotionRate,
             mealRequest.MealPictures,
             mealRequest.IngrediantsIDs,
-            category);
+            mealRequest.Category);
         
         var createMealResult = await _mediator.Send(command,concellationToken);
 
@@ -61,17 +52,17 @@ public class MealController : BaseApiController
         var mealPhotos =  _mapper.Map<List<PhotoDto>>(createMealResult.Value.Photos);
         
         return Ok(new MealResponse(
-            new MealDto(
+       
                 Id:createMealResult.Value.Id,
                 Name:createMealResult.Value.Name.Value,
                 Description:createMealResult.Value.Description,
                 BestSeller:createMealResult.Value.BestSeller,
                 Promotion: createMealResult.Value.Promotion,
                 PromotionRate: createMealResult.Value.PromotionRate,
-                Category: ToDto(createMealResult.Value.Category),
+                Category: createMealResult.Value.Category.Name,
                 Prices : prices,
                 Ingrediants: mealIngredients,
-                Photos: mealPhotos)));
+                Photos: mealPhotos));
     }
     
     [HttpGet("{mealId:guid}")]
@@ -83,7 +74,7 @@ public class MealController : BaseApiController
 
         if (getMealResult.IsFailure)
         {
-            return BadRequest(getMealResult.Error);
+            return NotFound(getMealResult.Error);
         }
         
         var prices = _mapper.Map<ICollection<PriceDto>>(getMealResult.Value.Prices);
@@ -91,17 +82,17 @@ public class MealController : BaseApiController
         var mealPhotos =  _mapper.Map<List<PhotoDto>>(getMealResult.Value.Photos);
 
         return Ok(new MealResponse(
-            new MealDto(
+          
                 Id:getMealResult.Value.Id,
                 Name:getMealResult.Value.Name.Value,
                 Description:getMealResult.Value.Description,
                 BestSeller:getMealResult.Value.BestSeller,
                 Promotion: getMealResult.Value.Promotion,
                 PromotionRate: getMealResult.Value.PromotionRate,
-                Category: ToDto(getMealResult.Value.Category),
+                Category: getMealResult.Value.Category.Name,
                 Prices : prices,
                 Ingrediants: mealIngredients,
-                Photos: mealPhotos)));
+                Photos: mealPhotos));
 
     }
     
@@ -121,40 +112,31 @@ public class MealController : BaseApiController
             var mealIngredients =  _mapper.Map<List<MealIngredientDto>>(meal.MealIngredients);
             var mealPhotos =  _mapper.Map<List<PhotoDto>>(meal.Photos);
             mealResponses.Add(new MealResponse(
-                new MealDto(
                     Id:meal.Id,
                     Name:meal.Name.Value,
                     Description:meal.Description,
                     BestSeller:meal.BestSeller,
                     Promotion: meal.Promotion,
                     PromotionRate: meal.PromotionRate,
-                    Category: ToDto(meal.Category),
+                    Category: meal.Category.Name,
                     Prices : prices,
                     Ingrediants: mealIngredients,
                     Photos: mealPhotos
-                )));
+                ));
         }
 
         return  mealResponses;
 
     }
-
+    
+    [HasPermission(Permissions.MealDelete)]
     [HttpDelete("{mealId:guid}")]
     public async Task<ActionResult> DeleteMeal(Guid mealId)
     {
         var query = new DeleteMealCommand(mealId);
+        //Change it so that you can have a response to handle the not found
         await _mediator.Send(query);
         return NoContent();
     }
     
-    private static Category ToDto(DomainCategory category)
-    {
-        return category.Name switch
-        {
-            nameof(DomainCategory.Pizza) => Category.Pizza,
-            nameof(DomainCategory.Sandwich) => Category.Sandwich,
-            nameof(DomainCategory.Coffee) => Category.Coffee,
-            _ => throw new InvalidOperationException(),
-        };
-    }
 }

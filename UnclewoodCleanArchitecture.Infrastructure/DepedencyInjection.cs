@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,6 +10,7 @@ using UnclewoodCleanArchitecture.Application.Common.Interfaces;
 using UnclewoodCleanArchitecture.Application.Common.Interfaces.Authentication;
 using UnclewoodCleanArchitecture.Application.Data;
 using UnclewoodCleanArchitecture.Infrastructure.Authentication;
+using UnclewoodCleanArchitecture.Infrastructure.Authorization;
 using UnclewoodCleanArchitecture.Infrastructure.Common.Persistence;
 using UnclewoodCleanArchitecture.Infrastructure.Data;
 using UnclewoodCleanArchitecture.Infrastructure.Ingredient.Persistence;
@@ -26,6 +29,7 @@ public static class DependencyInjection
         
             AddPersistence(services, configuration);
             AddAuthentication(services, configuration);
+            AddAuthorization(services);
             return services;
     }
 
@@ -73,12 +77,14 @@ public static class DependencyInjection
 
             httpClient.BaseAddress = new Uri(keycloakOptions.TokenUrl);
         });
+        services.AddScoped<IUserContext, UserContext>();
     }
 
     public static void AddPersistence(IServiceCollection services,IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("DefaultConnection") ?? 
                                throw new ArgumentNullException(nameof(configuration));
+        
         services.AddDbContext<UnclewoodDbContext>(options =>
             options.UseNpgsql(connectionString));
 
@@ -89,5 +95,16 @@ public static class DependencyInjection
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUnitOfWork>(serviceProvider => serviceProvider.GetRequiredService<UnclewoodDbContext>());
 
+    }
+    
+    private static void AddAuthorization(IServiceCollection services)
+    {
+        services.AddScoped<AuthorizationService>();
+
+        services.AddTransient<IClaimsTransformation, CustomClaimsTransformation>();
+
+        services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
+
+        services.AddTransient<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
     }
 }

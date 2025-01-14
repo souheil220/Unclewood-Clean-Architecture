@@ -3,6 +3,8 @@ using UnclewoodCleanArchitecture.Application.Common.Interfaces.Authentication;
 using UnclewoodCleanArchitecture.Application.Common.Interfaces.Command;
 using UnclewoodCleanArchitecture.Domain.Common;
 using UnclewoodCleanArchitecture.Domain.Common.ValueObject;
+using UnclewoodCleanArchitecture.Domain.Role;
+using UnclewoodCleanArchitecture.Domain.Role.Enum;
 using UnclewoodCleanArchitecture.Domain.User;
 
 namespace UnclewoodCleanArchitecture.Application.Users.Command.Register;
@@ -23,9 +25,10 @@ public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand , 
     public async Task<Result<Guid>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
         var user = User.Create(
-             Name.Create(request.FirstName),
-             Name.Create(request.LastName),
-            new Email(request.Email));
+            Name.Create(request.FirstName),
+            Name.Create(request.LastName),
+            new Email(request.Email),
+            request.Role);
 
         var identityId = await _authenticationService.RegisterAsync(
             user,
@@ -40,4 +43,6 @@ public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand , 
 
         return user.Id;
     }
+
+   
 }

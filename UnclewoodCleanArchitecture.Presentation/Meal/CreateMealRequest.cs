@@ -6,7 +6,7 @@ namespace UnclewoodCleanArchitectur.Presentation.Meal;
 
 public record CreateMealRequest(
 
-        Name Name, 
+        string Name, 
         ICollection<PriceDto> Prices, 
         string Description, 
         bool BestSeller, 
@@ -14,5 +14,5 @@ public record CreateMealRequest(
         double PromotionRate,
         List<PhotoDto> MealPictures,
         List<Guid> IngrediantsIDs,
-        Category Category 
+        string Category 
 );

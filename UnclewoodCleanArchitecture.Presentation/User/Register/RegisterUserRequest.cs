@@ -6,5 +6,6 @@ public record RegisterUserRequest(
         string Email,
         string FirstName,
         string LastName,
-        string Password
+        string Password,
+        List<string> Role
 );

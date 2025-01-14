@@ -10,13 +10,16 @@ namespace UnclewoodCleanArchitecture.Infrastructure.Common.Persistence;
 
 public class UnclewoodDbContext(DbContextOptions options,IHttpContextAccessor httpContextAccessor) : DbContext(options), IUnitOfWork
 {
-    private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
     public DbSet<Domain.Meal.Meal> Meals { get; set; } = null!;
     public DbSet<Domain.Ingredient.Ingredient> Ingredients { get; set; } = null!;
     
     public DbSet<Domain.User.User> Users { get; set; } = null!;
     
+    public DbSet<Domain.Role.Role> Roles { get; set; } = null!;
+    
     public DbSet<MealIngredient> MealIngrediants { get; set; }
+    
+    public DbSet<Domain.Common.Entities.RolePermission> RolePermission { get; set; }
 
 
     public async Task CommitChangesAsync()
@@ -59,5 +62,7 @@ public class UnclewoodDbContext(DbContextOptions options,IHttpContextAccessor ht
             .HasOne(mi => mi.Ingredient)
             .WithMany(i => i.MealIngrediants)
             .HasForeignKey(mi => mi.IngredientId);
+        
+        
     }
 }

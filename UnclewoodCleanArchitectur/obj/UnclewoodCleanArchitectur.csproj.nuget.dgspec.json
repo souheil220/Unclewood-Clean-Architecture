@@ -344,6 +344,9 @@
             "projectReferences": {
               "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitecture.Application/UnclewoodCleanArchitecture.Application.csproj": {
                 "projectPath": "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitecture.Application/UnclewoodCleanArchitecture.Application.csproj"
+              },
+              "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitecture.Infrastructure/UnclewoodCleanArchitecture.Infrastructure.csproj": {
+                "projectPath": "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitecture.Infrastructure/UnclewoodCleanArchitecture.Infrastructure.csproj"
               }
             }
           }

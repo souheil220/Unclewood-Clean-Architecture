@@ -25,7 +25,7 @@ public class CreateIngredientCommandHandler(IIngrediantsRepository ingrediantsRe
             );
         await ingrediantsRepository.AddIngrediantAsync(ingredient);
         await unitOfWork.CommitChangesAsync();
-
+    
         return ingredient;
     }
     
@@ -35,10 +35,12 @@ public class CreateIngredientCommandHandler(IIngrediantsRepository ingrediantsRe
         foreach (var location in locations)
         {
             Location.TryFromName(
-                location.ToString(),
+                location,
                 out var newLocation);
             result.Add(newLocation);
         }
         return result;
     }
+    
+  
 }

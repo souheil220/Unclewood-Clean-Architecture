@@ -13,4 +13,4 @@ public record CreateMealCommand(
     double PromotionRate,
     List<PhotoDto> MealPictures,
     List<Guid> IngrediantsIDs,
-    Category Category ): ICommand<Domain.Meal.Meal>;
+    string Category ): ICommand<Domain.Meal.Meal>;

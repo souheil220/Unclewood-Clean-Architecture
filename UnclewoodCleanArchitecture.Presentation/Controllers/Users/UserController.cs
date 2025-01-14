@@ -1,13 +1,16 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UnclewoodCleanArchitectur.Presentation.User;
 using UnclewoodCleanArchitectur.Presentation.User.Login;
 using UnclewoodCleanArchitectur.Presentation.User.Register;
 using UnclewoodCleanArchitecture.Application.Users.Command.Delete;
 using UnclewoodCleanArchitecture.Application.Users.Command.Login;
 using UnclewoodCleanArchitecture.Application.Users.Command.Register;
+using UnclewoodCleanArchitecture.Application.Users.Queries.GetLoggedInUser;
 using UnclewoodCleanArchitecture.Application.Users.Queries.ListUsers;
+using UnclewoodCleanArchitecture.Domain.Permission;
+using UnclewoodCleanArchitecture.Infrastructure.Authorization;
+using UserResponse = UnclewoodCleanArchitectur.Presentation.User.UserResponse;
 
 namespace UnclewoodCleanArchitectur.Presentation.Controllers.Users;
 
@@ -19,13 +22,13 @@ public class UserController : BaseApiController
     {
         _mediator = mediator;
     }
-    [AllowAnonymous]
+    [HasPermission(Permissions.UserAdd)]
     [HttpPost("register")]
     public async Task<ActionResult> CreateUser(RegisterUserRequest request,
         CancellationToken concellationToken)
     {
         var command = new RegisterUserCommand(
-            request.Email, request.FirstName, request.LastName,request.Password);
+            request.Email, request.FirstName, request.LastName,request.Password,request.Role);
         var result = await _mediator.Send(command, concellationToken);
 
         if (result.IsFailure)
@@ -48,7 +51,7 @@ public class UserController : BaseApiController
         return Ok(result.Value);
     }
 
-    [AllowAnonymous]
+    [HasPermission(Permissions.UserRead)]
     [HttpGet]
     public async Task<IActionResult> GetUsers(CancellationToken concellationToken)
     {
@@ -57,7 +60,10 @@ public class UserController : BaseApiController
         List<UserResponse> users = new();
         foreach (var user in result.Value)
         {
-            users.Add(new UserResponse(Id: user.Id, Email: user.Email.Value, FirstName: user.FirstName.Value, LastName: user.LastName.Value));
+            users.Add(new UserResponse(Id: user.Id, 
+                Email: user.Email.Value, 
+                FirstName: user.FirstName.Value,
+                LastName: user.LastName.Value));
         }
         
         if (result.IsFailure)
@@ -66,8 +72,8 @@ public class UserController : BaseApiController
         }
         return Ok(users);
     }
-
-    [AllowAnonymous]
+    
+    [HasPermission(Permissions.UserDelete)]
     [HttpDelete]
     public async Task<IActionResult> DeleteUser(Guid guid,CancellationToken concellationToken)
     {
@@ -78,5 +84,15 @@ public class UserController : BaseApiController
             return BadRequest(result.Error);
         }
         return NoContent();
+    }
+
+    //[Authorize(Roles = $"{Roles.Manager} ,{Roles.Admin}")]
+    [HasPermission(Permissions.UserRead)]
+    [HttpGet("me")]
+    public async Task<IActionResult> GetLoggedInUser(CancellationToken concellationToken)
+    {
+        var query = new GetLoggedInUserQuery();
+        var result = await _mediator.Send(query,concellationToken);
+        return Ok(result.Value);
     }
 }

@@ -19,11 +19,11 @@ public sealed class Ingredient : AggregateRoot
     }
     public Name Name { get; private set; }
     
-    public List<Location> DisponibleIn { get; private set; } = new List<Location>();
+    public List<Location> DisponibleIn { get; private set; } = new();
     
     public Price Price { get; private set; }
    
-   public List<MealIngredient> MealIngrediants { get; set; } = new List<MealIngredient>();
+   public List<MealIngredient> MealIngrediants { get; set; } = new();
    
    private Ingredient() : base(id:Guid.NewGuid())
    {}

@@ -16,6 +16,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\UnclewoodCleanArchitecture.Application\UnclewoodCleanArchitecture.Application.csproj" />
+      <ProjectReference Include="..\UnclewoodCleanArchitecture.Infrastructure\UnclewoodCleanArchitecture.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

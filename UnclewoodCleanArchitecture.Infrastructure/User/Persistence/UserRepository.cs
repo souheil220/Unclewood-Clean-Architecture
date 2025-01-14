@@ -33,6 +33,10 @@ public class UserRepository : IUserRepository
 
     public async Task AddUser(Domain.User.User user)
     {
+        foreach (var role in user.Roles)
+        {
+            _dbContext.Attach(role);
+        }
         await _dbContext.Users.AddAsync(user);
     }
 

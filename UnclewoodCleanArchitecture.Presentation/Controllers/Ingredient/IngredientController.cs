@@ -1,13 +1,12 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UnclewoodCleanArchitectur.Presentation.Common.Enums;
-using UnclewoodCleanArchitectur.Presentation.DTOs;
 using UnclewoodCleanArchitectur.Presentation.Ingredient;
 using UnclewoodCleanArchitecture.Application.Ingredient.Commands.CreateIngredient;
 using UnclewoodCleanArchitecture.Application.Ingredient.Commands.DeleteIngredient;
 using UnclewoodCleanArchitecture.Application.Ingredient.Queries.GetIngredient;
 using UnclewoodCleanArchitecture.Application.Ingredient.Queries.ListIngredient;
+using UnclewoodCleanArchitecture.Infrastructure.Authorization;
 using DomainLocation = UnclewoodCleanArchitecture.Domain.Common.Enum.Location;
 
 namespace UnclewoodCleanArchitectur.Presentation.Controllers.Ingredient;
@@ -23,6 +22,7 @@ public class IngredientController : BaseApiController
     }
    
     [HttpPost]
+    [HasPermission(Permissions.IngredientAdd)]
     public async Task<ActionResult> CreateIngrediant([FromBody] CreateIngridientRequest ingrediantRequest)
     {
         var command = new CreateIngredientCommand(
@@ -33,35 +33,44 @@ public class IngredientController : BaseApiController
             );
         
         var createIngredientResult = await _mediator.Send(command);
-        
+
+        if (createIngredientResult.IsFailure)
+        {
+            return BadRequest(createIngredientResult.Error);
+        }
+
         return Ok(new IngredientResponse(
-            new IngredientDto(
-                createIngredientResult.Value.Id,
-                createIngredientResult.Value.Name,
-                ToDto(createIngredientResult.Value.DisponibleIn),
-                createIngredientResult.Value.Price.Value)));
-        
-        
+
+            createIngredientResult.Value.Id,
+            createIngredientResult.Value.Name,
+            ingrediantRequest.DisponibleIn,
+            createIngredientResult.Value.Price.Value));
     }
     
 
     [HttpGet("{ingredientId:guid}")]
+    [HasPermission(Permissions.IngredientRead)]
     public async Task<IActionResult> GetIngredient(Guid ingredientId)
     {
         var query = new GetIngredientQuery(ingredientId);
 
         var getIngredientsResult = await _mediator.Send(query);
 
+        if (getIngredientsResult.IsFailure)
+        {
+            return BadRequest(getIngredientsResult.Error);
+        }
+
         return Ok(new IngredientResponse(
-            new IngredientDto(
                 getIngredientsResult.Value.Id,
                 getIngredientsResult.Value.Name,
                 ToDto(getIngredientsResult.Value.DisponibleIn),
-                getIngredientsResult.Value.Price.Value)));
+                getIngredientsResult.Value.Price.Value));
 
     }
     
     [HttpGet]
+    [HasPermission(Permissions.IngredientRead)]
     public async Task<List<IngredientResponse>> GetIngredients()
     {
         var query = new ListIngredientQuery();
@@ -73,16 +82,17 @@ public class IngredientController : BaseApiController
        foreach (var ingredient in getIngredientsResult.Value)
        {
            ingredientResponses.Add(new IngredientResponse(
-                                    new IngredientDto(ingredient.Id, 
+                                                    ingredient.Id, 
                                                     ingredient.Name, 
                                                     ToDto(ingredient.DisponibleIn),
                                                     ingredient.Price.Value 
-                                                    )));
+                                                    ));
        }
         return  ingredientResponses;
     }
     
     [HttpDelete("{ingredientId:guid}")]
+    [HasPermission(Permissions.IngredientDelete)]
     public async Task<IActionResult> DeleteIngredient(Guid ingredientId)
     {
         var query = new DeleteIngredientCommand(ingredientId);
@@ -91,18 +101,12 @@ public class IngredientController : BaseApiController
     }
     
 
-    private static List<Location> ToDto(List<DomainLocation> locations)
+    private static List<string> ToDto(List<DomainLocation> locations)
     {
-        List<Location> result = new();
+        List<string> result = new();
         foreach (var location in locations)
         {
-            var mappedLocation = location.Name switch
-            {
-                nameof(DomainLocation.SBA) => Location.SBA,
-                nameof(DomainLocation.ORAN) => Location.ORAN,
-                _ => throw new InvalidOperationException($"Unknown location: {location.Name}")
-            };
-            result.Add(mappedLocation);
+            result.Add(location.Name);
         }
 
         return result;
