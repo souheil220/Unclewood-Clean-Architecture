@@ -1,15 +1,23 @@
+using System.Data;
 using System.Reflection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using UnclewoodCleanArchitecture.Application.Common.Interfaces;
 using UnclewoodCleanArchitecture.Domain.Common.Entities;
-using UnclewoodCleanArchitecture.Domain.Common.Events;
 using UnclewoodCleanArchitecture.Domain.Common.Models;
+using UnclewoodCleanArchitecture.Infrastructure.Clock;
+using UnclewoodCleanArchitecture.Infrastructure.Outbox;
 
 namespace UnclewoodCleanArchitecture.Infrastructure.Common.Persistence;
 
-public class UnclewoodDbContext(DbContextOptions options,IHttpContextAccessor httpContextAccessor) : DbContext(options), IUnitOfWork
+public class UnclewoodDbContext(DbContextOptions options, IDateTimeProvider dateTimeProvider) : DbContext(options), IUnitOfWork
 {
+    private static readonly JsonSerializerSettings JsonSerializerSettings = new()
+    {
+        TypeNameHandling = TypeNameHandling.All
+    };
+
     public DbSet<Domain.Meal.Meal> Meals { get; set; } = null!;
     public DbSet<Domain.Ingredient.Ingredient> Ingredients { get; set; } = null!;
     
@@ -17,31 +25,50 @@ public class UnclewoodDbContext(DbContextOptions options,IHttpContextAccessor ht
     
     public DbSet<Domain.Role.Role> Roles { get; set; } = null!;
     
+    public DbSet<OutboxMessage> OutboxMessages { get; set; } = null!;
+    
     public DbSet<MealIngredient> MealIngrediants { get; set; }
     
     public DbSet<Domain.Common.Entities.RolePermission> RolePermission { get; set; }
-
+    
 
     public async Task CommitChangesAsync()
     {
-        var domainEvents = ChangeTracker.Entries<Entity>()
-                                .Select(entry => entry.Entity.PopDomainEvents())
-                                .SelectMany(events => events)
-                                .ToList();
+        try
+        {
+            PublishDomainEventsAsync();
+            await SaveChangesAsync();
 
-        AddDomainEventToOffLineProcessingQueue(domainEvents);
-        await SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException ex)
+        {
+           
+            throw new DBConcurrencyException(ex.Message);
+        }   
+       
     }
 
-    private void AddDomainEventToOffLineProcessingQueue(List<IDomainEvent> domainEvents)
+    private void PublishDomainEventsAsync()
     {
-        var domainEventsQueue =httpContextAccessor.HttpContext!.Items.
-                                            TryGetValue("DomainEventQueue" , out var value) 
-                                                && value is Queue<IDomainEvent> existingDomainEvents? existingDomainEvents
-                                            :new Queue<IDomainEvent>();
-        domainEvents.ForEach(domainEventsQueue.Enqueue);
-        
-        httpContextAccessor.HttpContext!.Items["DomainEventQueue"] = domainEventsQueue;
+        var outboxMessages = ChangeTracker
+            .Entries<Entity>()
+            .Select(entry => entry.Entity)
+            .SelectMany(entity =>
+            {
+                var domainEvents = entity.GetDomainEvents();
+
+                entity.ClearDomainEvents();
+
+                return domainEvents;
+            })
+            .Select(domainEvent => new OutboxMessage(
+                Guid.NewGuid(),
+                dateTimeProvider.UtcNow,
+                domainEvent.GetType().Name,
+                JsonConvert.SerializeObject(domainEvent, JsonSerializerSettings)))
+            .ToList();
+
+        AddRange(outboxMessages);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

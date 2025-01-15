@@ -13,7 +13,7 @@ public abstract class Entity
     }
     protected Entity(){}
 
-    public List<IDomainEvent> PopDomainEvents()
+    public List<IDomainEvent> ClearDomainEvents()
     {
         var copy = _domainEvents.ToList();
         _domainEvents.Clear();
@@ -32,6 +32,11 @@ public abstract class Entity
     public override int GetHashCode()
     {
         return Id.GetHashCode();
+    }
+    
+    public IReadOnlyList<IDomainEvent> GetDomainEvents()
+    {
+        return _domainEvents.ToList();
     }
     
     protected void RaiseDomainEvent(IDomainEvent domainEvent)

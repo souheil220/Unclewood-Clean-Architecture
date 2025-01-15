@@ -1,8 +1,10 @@
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Serilog;
+using Unclewood_Clean_Architectur.OpenApi;
 using UnclewoodCleanArchitectur.Presentation.Extention;
 using UnclewoodCleanArchitecture.Application;
 using UnclewoodCleanArchitecture.Infrastructure;
-using UnclewoodCleanArchitecture.Infrastructure.Common.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +22,10 @@ builder.Services
     .AddApplication()
     .AddInfrastructure(builder.Configuration);
 
+
+builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
+
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddSwaggerGen(c =>
 {
@@ -28,8 +34,8 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-app.AddInfrastructureMiddleware();
 app.AddPresentationMiddleware();
+
 
 /*
 app.Use(async (context, next) =>
@@ -59,8 +65,19 @@ app.Use(async (context, next) =>
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
-    
+    app.UseSwaggerUI(options =>
+    {
+        var descriptions = app.DescribeApiVersions();
+
+        foreach (var description in descriptions)
+        {
+            var url = $"/swagger/{description.GroupName}/swagger.json";
+            var name = description.GroupName.ToUpperInvariant();
+            options.SwaggerEndpoint(url, name);
+        }
+    });
+    // REMARK: Uncomment if you want to seed initial data.
+    // app.SeedData();
 }
 
 app.UseHttpsRedirection();
@@ -69,9 +86,25 @@ app.UseRequestContextLogging();
 
 app.UseSerilogRequestLogging();
 
+app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.Use(async (context, next) =>
+{
+    app.Logger.LogInformation("Request Path: {Path}", context.Request.Path);
+    await next();
+});
+
+app.MapHealthChecks("api/health", new HealthCheckOptions
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
+
+
+
+
 
 app.Run();
