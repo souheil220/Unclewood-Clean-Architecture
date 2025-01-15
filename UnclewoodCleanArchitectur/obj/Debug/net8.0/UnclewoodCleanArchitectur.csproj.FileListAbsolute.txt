@@ -139,3 +139,16 @@
 /Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
 /Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll
 /Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/appsettings.Development.json
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/Serilog.dll
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/Serilog.AspNetCore.dll
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/Serilog.Extensions.Hosting.dll
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/Serilog.Extensions.Logging.dll
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/Serilog.Formatting.Compact.dll
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/Serilog.Settings.Configuration.dll
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/Serilog.Sinks.Console.dll
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/Serilog.Sinks.Debug.dll
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/Serilog.Sinks.File.dll
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/Serilog.Sinks.Seq.dll
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/Microsoft.Extensions.Caching.StackExchangeRedis.dll
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/Pipelines.Sockets.Unofficial.dll
+/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur/bin/Debug/net8.0/StackExchange.Redis.dll

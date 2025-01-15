@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using UnclewoodCleanArchitecture.Domain.Common.Entities;
 using UnclewoodCleanArchitecture.Domain.Common.Enum;
 using UnclewoodCleanArchitecture.Domain.Common.Models;
@@ -8,6 +9,7 @@ namespace UnclewoodCleanArchitecture.Domain.Ingredient;
 
 public sealed class Ingredient : AggregateRoot
 {
+    [JsonConstructor]
     public Ingredient(
         Name name, 
         List<Location> disponibleIn,

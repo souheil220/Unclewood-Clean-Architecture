@@ -1,9 +1,13 @@
+using Serilog;
 using UnclewoodCleanArchitectur.Presentation.Extention;
 using UnclewoodCleanArchitecture.Application;
 using UnclewoodCleanArchitecture.Infrastructure;
 using UnclewoodCleanArchitecture.Infrastructure.Common.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, loggerConfig) =>
+    loggerConfig.ReadFrom.Configuration(context.Configuration));
 
 // Add services to the container.
 
@@ -27,6 +31,7 @@ var app = builder.Build();
 app.AddInfrastructureMiddleware();
 app.AddPresentationMiddleware();
 
+/*
 app.Use(async (context, next) =>
 {
     if (context.User?.Identity?.IsAuthenticated ?? false)
@@ -47,7 +52,7 @@ app.Use(async (context, next) =>
     
     await next();
 });
-
+*/
 
 
 // Configure the HTTP request pipeline.
@@ -58,7 +63,11 @@ if (app.Environment.IsDevelopment())
     
 }
 
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
+
+app.UseRequestContextLogging();
+
+app.UseSerilogRequestLogging();
 
 app.UseAuthentication();
 app.UseAuthorization();

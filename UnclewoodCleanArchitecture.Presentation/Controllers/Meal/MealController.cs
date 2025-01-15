@@ -9,8 +9,6 @@ using UnclewoodCleanArchitecture.Application.Meal.Queries.GetMeal;
 using UnclewoodCleanArchitecture.Application.Meal.Queries.ListMeals;
 using UnclewoodCleanArchitecture.Infrastructure.Authorization;
 
-
-
 namespace UnclewoodCleanArchitectur.Presentation.Controllers.Meal;
 
 public class MealController : BaseApiController

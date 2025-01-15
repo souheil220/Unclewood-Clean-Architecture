@@ -6,11 +6,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using UnclewoodCleanArchitecture.Application.Caching;
 using UnclewoodCleanArchitecture.Application.Common.Interfaces;
 using UnclewoodCleanArchitecture.Application.Common.Interfaces.Authentication;
 using UnclewoodCleanArchitecture.Application.Data;
 using UnclewoodCleanArchitecture.Infrastructure.Authentication;
 using UnclewoodCleanArchitecture.Infrastructure.Authorization;
+using UnclewoodCleanArchitecture.Infrastructure.Caching;
 using UnclewoodCleanArchitecture.Infrastructure.Common.Persistence;
 using UnclewoodCleanArchitecture.Infrastructure.Data;
 using UnclewoodCleanArchitecture.Infrastructure.Ingredient.Persistence;
@@ -30,6 +32,7 @@ public static class DependencyInjection
             AddPersistence(services, configuration);
             AddAuthentication(services, configuration);
             AddAuthorization(services);
+            AddCaching(services, configuration);
             return services;
     }
 
@@ -106,5 +109,15 @@ public static class DependencyInjection
         services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
         services.AddTransient<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
+    }
+    
+    private static void AddCaching(IServiceCollection services, IConfiguration configuration)
+    {
+        var connectionString = configuration.GetConnectionString("Cache") ??
+                               throw new ArgumentNullException(nameof(configuration));
+
+        services.AddStackExchangeRedisCache(options => options.Configuration = connectionString);
+
+        services.AddSingleton<ICacheService, CacheService>();
     }
 }

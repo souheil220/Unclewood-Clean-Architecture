@@ -1,32 +1,50 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Serilog.Context;
 using UnclewoodCleanArchitecture.Application.Common.Interfaces.Command;
+using UnclewoodCleanArchitecture.Domain.Common;
 
 namespace UnclewoodCleanArchitecture.Application.Behaviors;
 
 public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : IBaseCommand
+    where TRequest : IBaseRequest
+    where TResponse : Result
 {
-    private readonly ILogger<TRequest> _logger;
+    private readonly ILogger<LoggingBehavior<TRequest, TResponse>> _logger;
 
-    public LoggingBehavior(ILogger<TRequest> logger)
+    public LoggingBehavior(ILogger<LoggingBehavior<TRequest, TResponse>> logger)
     {
         _logger = logger;
     }
 
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(TRequest request, 
+                                        RequestHandlerDelegate<TResponse> next, 
+                                        CancellationToken cancellationToken)
     {
         var name = request.GetType().Name;
         try
         {
-            _logger.LogInformation("Executing command {command}", name);
+            _logger.LogInformation("Executing request {Request}", name);
             var result = await next();
-            _logger.LogInformation("Command {command} passed successfully", name);
+
+            if (result.IsSuccess)
+            {
+                _logger.LogInformation("Request {Request} processed successfully", name);
+   
+            }
+            else
+            {
+                using (LogContext.PushProperty("Error", result.Error, true))
+                {
+                    _logger.LogError("Request {Request} processed with error", name);
+                }
+            }
+            
             return result;
         }
         catch (Exception e)
         {
-           _logger.LogError(e, "Command {command} processing failed", name);
+           _logger.LogError(e, "Request {Request} processing failed", name);
             throw;
         }
     }

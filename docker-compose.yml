@@ -60,5 +60,26 @@
     command: start-dev --import-realm
     networks:
       - unclewood
+  
+  UNCLEWOOD_SEQ:
+    image: datalust/seq:latest
+    container_name: Unclewood_Seq
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - 5341:5341
+      - 8081:80
+    networks:
+      - unclewood
+      
+  UNCLEWOOD_REDIS:
+    image: redis:latest
+    container_name: Bookify_Redis
+    restart: always
+    ports:
+      - '6379:6379'
+    networks:
+      - unclewood
+      
 networks:
   unclewood:

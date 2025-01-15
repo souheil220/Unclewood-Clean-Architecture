@@ -1,4 +1,5 @@
-﻿using UnclewoodCleanArchitecture.Domain.Common.ValueObject;
+﻿using System.Text.Json.Serialization;
+using UnclewoodCleanArchitecture.Domain.Common.ValueObject;
 using UnclewoodCleanArchitecture.Domain.Role.Enum;
 using UnclewoodCleanArchitecture.Domain.User;
 
@@ -8,8 +9,8 @@ public sealed class Role
 {
     public static readonly Role Manager = new(2, Name.Create(nameof(Roles.Manager)));
     public static readonly Role Admin = new(1, Name.Create(nameof(Roles.Admin)));
-
-    private Role(int id, Name name)
+    [JsonConstructor]
+    public Role(int id, Name name)
     {
         Id = id;
         Name = name;

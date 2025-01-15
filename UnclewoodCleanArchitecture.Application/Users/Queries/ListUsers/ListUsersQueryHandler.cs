@@ -1,7 +1,6 @@
 using UnclewoodCleanArchitecture.Application.Common.Interfaces;
 using UnclewoodCleanArchitecture.Application.Common.Interfaces.Query;
 using UnclewoodCleanArchitecture.Application.Data;
-using UnclewoodCleanArchitecture.Application.Meal.Queries.ListMeals;
 using UnclewoodCleanArchitecture.Domain.Common;
 using UnclewoodCleanArchitecture.Domain.User;
 

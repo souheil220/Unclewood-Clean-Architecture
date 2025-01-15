@@ -64,8 +64,9 @@ public class IngredientController : BaseApiController
         return Ok(new IngredientResponse(
                 getIngredientsResult.Value.Id,
                 getIngredientsResult.Value.Name,
-                ToDto(getIngredientsResult.Value.DisponibleIn),
-                getIngredientsResult.Value.Price.Value));
+                getIngredientsResult.Value.DisponibleIn,
+               // ToDto(getIngredientsResult.Value.DisponibleIn),
+                getIngredientsResult.Value.Price));
 
     }
     

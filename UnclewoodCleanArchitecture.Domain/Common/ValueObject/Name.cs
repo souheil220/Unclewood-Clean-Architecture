@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace UnclewoodCleanArchitecture.Domain.Common.ValueObject;
 
 public sealed class Name : Models.ValueObject
@@ -6,7 +8,9 @@ public sealed class Name : Models.ValueObject
     public const int MaxLength = 40;
     //[Range(100, 10000, ErrorMessage = "Value must be between 100 and 10000.")]
     public string Value { get; private set; }
-    private Name(string value)
+    
+    [JsonConstructor]
+    public Name(string value)
     {
         Value = value;
     }
