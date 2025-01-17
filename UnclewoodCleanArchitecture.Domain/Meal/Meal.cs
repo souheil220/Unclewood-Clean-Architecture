@@ -14,12 +14,12 @@ namespace UnclewoodCleanArchitecture.Domain.Meal;
 
 public sealed class Meal : AggregateRoot
 {
-    public Meal( 
+    private Meal( 
         Name name, 
-        string description, 
-        bool bestSeller, 
-        bool promotion, 
-        double promotionRate, 
+        Descriptiion description, 
+        BestSeller bestSeller, 
+        Promotion promotion, 
+        PromotionRate promotionRate, 
         Category category,Guid? id = null) : base(id?? Guid.NewGuid())
     {
         Name = name;
@@ -34,20 +34,47 @@ public sealed class Meal : AggregateRoot
     
     public List<Price> Prices { get; private set; } = new();
     
-    public string Description { get; private set; }
+    public Descriptiion Description { get; private set; }
    
-    public bool BestSeller { get; private set; } = false;
+    public BestSeller BestSeller { get; private set; }
     
-    public bool Promotion { get; private set; }
+    public Promotion Promotion { get; private set; }
     
-    public double PromotionRate { get; private set; } = 0;
+    public PromotionRate PromotionRate { get; private set; }
   
     public Category Category { get; private set; } = null!;
     
    public List<MealIngredient> MealIngredients { get; private set; } = new();
     
    public List<Photo> Photos { get; private set; } = new();
-    
+
+   public readonly List<Price> NewPrices = new();
+   
+   
+   public static Meal Create( 
+       Name name, 
+       Descriptiion description, 
+       BestSeller bestSeller, 
+       Promotion promotion, 
+       PromotionRate promotionRate, 
+       Category category)
+   {
+       var meal = new Meal(name,
+           description,
+           bestSeller,
+           promotion,
+           promotionRate,
+           category);
+     
+       /* If I had a chain reaction for example that it should happen after the addition of a new mela
+      I would raise the events just like a did below */
+       meal.RaiseMealCreatedEvent();
+
+       return meal;
+   } 
+   
+   
+   
     private Result AddIngredient(Guid ingredientId)
     {
         if (MealIngredients.Any(mi => mi.IngredientId == ingredientId))
@@ -86,6 +113,19 @@ public sealed class Meal : AggregateRoot
     {
         Prices.Add(new Price(price.Value,price.Currency,price.Location));
     }
+    
+    // Method for applying the promotion (business logic in the domain)
+    public void ApplyPromotionIfNecessary(List<Price> prices, bool hasPromotion, decimal promotionRate)
+    {
+        if (hasPromotion)
+        {
+            foreach (var price in prices)
+            {
+                NewPrices.Add(new Price(price.ApplyDiscount(promotionRate).Value, price.Currency, price.Location));
+            }
+
+        }
+    }
 
     public void AddPrices(ICollection<Price> prices)
     {
@@ -94,15 +134,16 @@ public sealed class Meal : AggregateRoot
             AddPrice(price);
         }
     }
-    private Result AddPhoto(Photo photo)
+    private void AddPhoto(Photo photo)
     {
         if (Photos.Any(ph => ph.Url == photo.Url))
         {
-            return Result.Failure(MealErrors.PhotoAlreadyExist);
+            Result.Failure(MealErrors.PhotoAlreadyExist);
+            return;
         }
         
         Photos.Add(Photo.Create(photo.Url,"",photo.Name,""));
-        return Result.Success();
+        Result.Success();
     }
     
     public void AddPhotos(List<Photo> mealPhotos)
@@ -112,7 +153,6 @@ public sealed class Meal : AggregateRoot
             AddPhoto(mealPhoto);
         }
     }
-
     public Result RemovePhoto(Guid photoId)
     {
         var photo = Photos.FirstOrDefault(ph => ph.Id == photoId);
@@ -131,7 +171,8 @@ public sealed class Meal : AggregateRoot
     {
         _domainEvents.Add(new MealListedEvent(Id));
     }
-    public void RaiseMealCreatedEvent()
+
+    private void RaiseMealCreatedEvent()
     {
         _domainEvents.Add(new MealCreatedEvent(Id));
     }

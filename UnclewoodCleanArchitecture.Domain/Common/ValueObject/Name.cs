@@ -1,12 +1,10 @@
 using System.Text.Json.Serialization;
+using UnclewoodCleanArchitecture.Domain.Exepptions.Meal;
 
 namespace UnclewoodCleanArchitecture.Domain.Common.ValueObject;
 
 public sealed class Name : Models.ValueObject
 {
-    public const int MinLength = 3;
-    public const int MaxLength = 40;
-    //[Range(100, 10000, ErrorMessage = "Value must be between 100 and 10000.")]
     public string Value { get; private set; }
     
     [JsonConstructor]
@@ -19,29 +17,18 @@ public sealed class Name : Models.ValueObject
     {
         if (string.IsNullOrWhiteSpace(value))
         {
-            //TODO throw new DomainException("Name cannot be empty.");
+            throw new NameDomainException("Name cannot be null or empty.", nameof(value));
         }
-        if (value.Length < MinLength)
+
+        if (value.Length < 3 || value.Length > 50)
         {
-           //TODO throw new DomainException($"Name must be at least {MinLength} characters long.");
+            throw new NameDomainException("Name must be between 3 and 50 characters long.", nameof(value));
         }
-        if (value.Length > MaxLength)
-        {
-            //TODO throw new DomainException($"Name cannot exceed {MaxLength} characters.");
-        }
-        // You might want to add more validation rules
-        if (!value.All(c => char.IsLetterOrDigit(c) || char.IsWhiteSpace(c) || c == '-' || c == '\''))
-        {
-            //TODO throw new DomainException("Name contains invalid characters.");
-        }
-        value = value.Trim();
         
+        value = value.Trim();
         return new Name(value.ToLower());
     }
-    public static Name CreateUnvalidated(string value)
-    {
-        return new Name(value);
-    }
+    
     public static implicit operator string(Name name) => name.Value;
 
     public override IEnumerable<object?> GetEqualityComponent()

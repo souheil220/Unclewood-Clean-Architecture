@@ -1,16 +1,18 @@
+using UnclewoodCleanArchitecture.Domain.Exepptions.Common;
+
 namespace UnclewoodCleanArchitecture.Domain.Common.ValueObject;
 
 public class BasePrice : Models.ValueObject
 {
-    public const decimal MinValue = 100m;
-    public const decimal MaxValue = 10000m;
+    private const decimal MinValue = 100m;
+    private const decimal MaxValue = 10000m;
     public decimal Value { get; }
     public string Currency { get; }
 
     protected BasePrice(decimal value, string currency)
     {
         Value = decimal.Round(value, 2);
-        Currency = ValidateCurrency(currency);
+        Currency = !string.IsNullOrWhiteSpace(currency)? ValidateCurrency(currency):"DZA";
     }
     public static BasePrice Create(decimal value, string currency)
     {
@@ -26,17 +28,17 @@ public class BasePrice : Models.ValueObject
     {
         if (value < MinValue)
         {
-            //TODO throw new DomainException($"Price cannot be less than {MinValue}");
+            throw new PriceDomainException($"Price cannot be less than {MinValue}");
         }
 
         if (value > MaxValue)
         {
-            //TODO throw new DomainException($"Price cannot exceed {MaxValue}");
+            throw new PriceDomainException($"Price cannot exceed {MaxValue}");
         }
 
         if (decimal.Round(value, 2) != value)
         {
-            //TODO throw new DomainException("Price cannot have more than 2 decimal places");
+            throw new PriceDomainException("Price cannot have more than 2 decimal places");
         }
     }
     
@@ -44,7 +46,7 @@ public class BasePrice : Models.ValueObject
     {
         if (string.IsNullOrWhiteSpace(currency))
         {
-            //TODO throw new DomainException("Currency cannot be empty");
+            throw new PriceDomainException("Currency cannot be empty");
         }
 
         var normalizedCurrency = currency.Trim().ToUpper();
@@ -52,16 +54,17 @@ public class BasePrice : Models.ValueObject
         
         if (!validCurrencies.Contains(normalizedCurrency))
         {
-            //TODO throw new DomainException($"Currency {currency} is not supported");
+            throw new PriceDomainException($"Currency {currency} is not supported");
         }
 
         return normalizedCurrency;
     }
-    public BasePrice MultiplyBy(decimal multiplier)
+
+    private BasePrice MultiplyBy(decimal multiplier)
     {
         if (multiplier < 0)
         {
-            //TODO throw new DomainException("Multiplier cannot be negative");
+            throw new PriceDomainException("Multiplier cannot be negative");
         }
         var result = Value * multiplier;
         return Create(result, Currency);
@@ -69,12 +72,8 @@ public class BasePrice : Models.ValueObject
     
     public BasePrice ApplyDiscount(decimal percentageDiscount)
     {
-        if (percentageDiscount < 0 || percentageDiscount > 100)
-        {
-            //TODO throw new DomainException("Discount percentage must be between 0 and 100");
-        }
-
         var discountMultiplier = 1 - (percentageDiscount / 100);
+        
         return MultiplyBy(discountMultiplier);
     }
     
@@ -82,7 +81,7 @@ public class BasePrice : Models.ValueObject
     {
         if (Currency != other.Currency)
         {
-            //TODO throw new DomainException($"Cannot compare prices with different currencies: {Currency} and {other.Currency}");
+            throw new PriceDomainException($"Cannot compare prices with different currencies: {Currency} and {other.Currency}");
         }
     }
 

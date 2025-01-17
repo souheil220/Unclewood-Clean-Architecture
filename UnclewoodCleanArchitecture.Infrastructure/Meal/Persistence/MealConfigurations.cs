@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using UnclewoodCleanArchitecture.Domain.Common.Enum;
 using UnclewoodCleanArchitecture.Domain.Common.ValueObject;
 using UnclewoodCleanArchitecture.Domain.Meal.Enums;
+using UnclewoodCleanArchitecture.Domain.Meal.ValueObjects;
+
 namespace UnclewoodCleanArchitecture.Infrastructure.Meal.Persistence;
 
 public class MealConfigurations : IEntityTypeConfiguration<Domain.Meal.Meal>
@@ -13,16 +15,39 @@ public class MealConfigurations : IEntityTypeConfiguration<Domain.Meal.Meal>
 
         builder.Property(s => s.Id)
             .ValueGeneratedNever();
-       
-        builder.Property(m => m.Category)
-            .HasConversion(
-                category => category.Value, 
-                value => Category.FromValue(value));
+
         
         builder.Property(m => m.Name)
             .HasConversion(
                 name => name.Value, 
                 value => Name.Create(value));
+        
+        builder.Property(m => m.Description)
+            .HasConversion(
+                description => description.Value, 
+                value => Descriptiion.Create(value));
+        
+        builder.Property(m => m.BestSeller)
+            .HasConversion(
+                bestSeller => bestSeller.Value, 
+                value => new BestSeller(value));
+        
+        builder.Property(m => m.Promotion)
+            .HasConversion(
+                promotion => promotion.Value, 
+                value => new Promotion(value));
+        
+        builder.Property(m => m.PromotionRate)
+            .HasConversion(
+                promotionRate => promotionRate.Value, 
+                value => PromotionRate.Create(value));
+        
+        builder.Property(m => m.Category)
+            .HasConversion(
+                category => category.Value, 
+                value => Category.FromValue(value));
+        
+        
 
         builder.OwnsMany(m => m.Prices, priceBuilder =>
         {
@@ -43,6 +68,8 @@ public class MealConfigurations : IEntityTypeConfiguration<Domain.Meal.Meal>
                 .HasConversion(
                     location => location.Value,
                     value => Location.FromValue(value));
+            
+            
 
         });
         

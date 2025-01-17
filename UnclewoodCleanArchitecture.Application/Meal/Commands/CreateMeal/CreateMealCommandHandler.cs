@@ -19,29 +19,31 @@ public class CreateMealCommandHandler(IMealRepository mealRepository, IUnitOfWor
     public async Task<Result<Domain.Meal.Meal>> Handle(CreateMealCommand request, CancellationToken cancellationToken)
     {
         var mealExist = await mealRepository.MealExists(request.Name);
+       
         if (mealExist)
         {
             return Result.Failure<Domain.Meal.Meal>(MealErrors.MealAlreadyExist);
         }
 
-        var meal = new Domain.Meal.Meal(
-            name: Name.Create(request.Name), 
-            description: request.Description,
-            bestSeller: request.BestSeller,
-            promotion: request.Promotion,
-            promotionRate:request.PromotionRate,
-            category: ToDto(request.Category)
-            );
+        var meal =  Domain.Meal.Meal.Create(
+                             Name.Create(request.Name), 
+                             new Descriptiion(request.Description),
+                             new BestSeller(request.BestSeller),
+                             new Promotion(request.Promotion),
+                             PromotionRate.Create(request.PromotionRate),
+                             ToDto(request.Category)
+                            );
         
         var photos = mapper.Map<List<Photo>>(request.MealPictures);
-        //var prices = mapper.Map<ICollection<Price>>(request.Prices.EnumConverter(request.DisponibleIn));
+        
         meal.AddIngredients(request.IngrediantsIDs);
+        
         meal.AddPhotos(photos);
+        
         meal.AddPrices(EnumConverter(request.Prices));
+        
         await mealRepository.AddMealAsync(meal);
-        /* If I had a chain reaction for example that it should happen after the addition of a new mela
-         I would raise the events just like a did below */
-        meal.RaiseMealCreatedEvent();
+    
         await unitOfWork.CommitChangesAsync();
 
         return meal;

@@ -53,10 +53,10 @@ public class MealController : BaseApiController
        
                 Id:createMealResult.Value.Id,
                 Name:createMealResult.Value.Name.Value,
-                Description:createMealResult.Value.Description,
-                BestSeller:createMealResult.Value.BestSeller,
-                Promotion: createMealResult.Value.Promotion,
-                PromotionRate: createMealResult.Value.PromotionRate,
+                Description:createMealResult.Value.Description.Value,
+                BestSeller:createMealResult.Value.BestSeller.Value,
+                Promotion: createMealResult.Value.Promotion.Value,
+                PromotionRate: createMealResult.Value.PromotionRate.Value,
                 Category: createMealResult.Value.Category.Name,
                 Prices : prices,
                 Ingrediants: mealIngredients,
@@ -75,24 +75,10 @@ public class MealController : BaseApiController
             return NotFound(getMealResult.Error);
         }
         
-        var prices = _mapper.Map<ICollection<PriceDto>>(getMealResult.Value.Prices);
-        var mealIngredients =  _mapper.Map<List<MealIngredientDto>>(getMealResult.Value.MealIngredients);
-        var mealPhotos =  _mapper.Map<List<PhotoDto>>(getMealResult.Value.Photos);
-
-        return Ok(new MealResponse(
-          
-                Id:getMealResult.Value.Id,
-                Name:getMealResult.Value.Name.Value,
-                Description:getMealResult.Value.Description,
-                BestSeller:getMealResult.Value.BestSeller,
-                Promotion: getMealResult.Value.Promotion,
-                PromotionRate: getMealResult.Value.PromotionRate,
-                Category: getMealResult.Value.Category.Name,
-                Prices : prices,
-                Ingrediants: mealIngredients,
-                Photos: mealPhotos));
+        return Ok(getMealResult.Value);
 
     }
+    
     
     [HttpGet]
     public async Task<List<MealResponse>> GetMeals()
@@ -112,10 +98,10 @@ public class MealController : BaseApiController
             mealResponses.Add(new MealResponse(
                     Id:meal.Id,
                     Name:meal.Name.Value,
-                    Description:meal.Description,
-                    BestSeller:meal.BestSeller,
-                    Promotion: meal.Promotion,
-                    PromotionRate: meal.PromotionRate,
+                    Description:meal.Description.Value,
+                    BestSeller:meal.BestSeller.Value,
+                    Promotion: meal.Promotion.Value,
+                    PromotionRate: meal.PromotionRate.Value,
                     Category: meal.Category.Name,
                     Prices : prices,
                     Ingrediants: mealIngredients,

@@ -1,15 +1,16 @@
-using MediatR;
+using AutoMapper;
 using UnclewoodCleanArchitecture.Application.Common.Interfaces;
 using UnclewoodCleanArchitecture.Application.Common.Interfaces.Query;
 using UnclewoodCleanArchitecture.Application.Data;
+using UnclewoodCleanArchitecture.Application.DTOS;
 using UnclewoodCleanArchitecture.Domain.Common;
 using UnclewoodCleanArchitecture.Domain.Meal.Errors;
 
 namespace UnclewoodCleanArchitecture.Application.Meal.Queries.GetMeal;
 
-public class GetMealQueryHandler(IMealRepository mealRepository,ISqlConnectionFactory sqlConnectionFactory) : IQueryHandler<GetMealQuery, Domain.Meal.Meal>
+public class GetMealQueryHandler(IMealRepository mealRepository,ISqlConnectionFactory sqlConnectionFactory, IMapper mapper) : IQueryHandler<GetMealQuery, MealResponse>
 {
-    public async Task<Result<Domain.Meal.Meal>> Handle(GetMealQuery request, CancellationToken cancellationToken)
+    public async Task<Result<MealResponse>> Handle(GetMealQuery request, CancellationToken cancellationToken)
     {
         var sql = $"""
                    WITH MealPhotos AS (
@@ -47,11 +48,32 @@ public class GetMealQueryHandler(IMealRepository mealRepository,ISqlConnectionFa
 
         //TODO Use Dapper here so you can query you Meal table and populate your ingredients
           var meal = await mealRepository.GetMealByGuidAsync(request.MealId);
-          if (meal is null)
-          {
-              return Result.Failure<Domain.Meal.Meal>(MealErrors.NotFound);
-          }
+
+          if (meal is null) return Result.Failure<MealResponse>(MealErrors.NotFound);
+          
+          var prices = mapper.Map<ICollection<PriceDto>>(meal.Prices);
+          var mealIngredients =  mapper.Map<List<MealIngredientDto>>(meal.MealIngredients);
+          var mealPhotos =  mapper.Map<List<PhotoDto>>(meal.Photos);
+          
+          meal.ApplyPromotionIfNecessary(meal.Prices,meal.Promotion.Value ,(decimal)meal.PromotionRate.Value);
+          
+          var newMeal = mapper.Map<IEnumerable<PriceDto>>(meal.NewPrices);
+              
+          var mealResponse = new MealResponse(
+              Id: meal.Id,
+              Name: meal.Name.Value,
+              Description : meal.Description.Value,
+              BestSeller: meal.BestSeller.Value,
+              Promotion: meal.Promotion.Value,
+              NewPrice: newMeal, 
+              Category: meal.Category.Name,
+              Prices :prices ,
+              Ingrediants :mealIngredients,
+              Photos : mealPhotos
+          );
           meal.RaiseMealsListed();
-          return Result.Success(meal);
+              
+          return Result.Success(mealResponse);
+
     }
 }

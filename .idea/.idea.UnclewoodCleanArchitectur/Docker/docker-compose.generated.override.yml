@@ -5,16 +5,30 @@ services:
       context: "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur"
       dockerfile: "UnclewoodCleanArchitectur/Dockerfile"
       target: "base"
+      args:
+        BUILD_CONFIGURATION: "Debug"
     command: []
     entrypoint:
-    - "dotnet"
-    - "/app/bin/Debug/net8.0/UnclewoodCleanArchitectur.dll"
+    - "/opt/rider-debugger/linux-arm64/JetBrains.Debugger.Worker"
+    - "--runtimeconfig"
+    - "/opt/rider-debugger/JetBrains.Debugger.Worker.runtimeconfig.json"
+    - "--mode=server"
+    - "--frontend-port=57100"
+    - "--backend-port=57300"
+    - "--timeout=60"
     environment:
       DOTNET_USE_POLLING_FILE_WATCHER: "true"
+      RIDER_DEBUGGER_LOG_DIR: "/var/opt/rider-debugger"
+      RESHARPER_LOG_CONF: "/etc/opt/rider-debugger/backend-log.xml"
     image: "unclewood_api:dev"
-    ports: []
+    ports:
+    - "127.0.0.1:57030:57100"
+    - "127.0.0.1:57230:57300"
     volumes:
     - "/Users/luxurysmartphone/.nuget/packages:/home/app/.nuget/packages"
     - "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur:/app:rw"
     - "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur:/src:rw"
+    - "/Users/luxurysmartphone/.local/share/JetBrains/RiderRemoteDebugger/2024.2.7/LinuxArm64:/opt/rider-debugger"
+    - "/Applications/Rider.app/Contents/bin:/etc/opt/rider-debugger/backend-log.xml"
+    - "/Users/luxurysmartphone/Library/Logs/JetBrains/Rider2024.2/DebuggerWorker/JetBrains.Debugger.Worker.2025_1_17_02_56_48:/var/opt/rider-debugger:rw"
     working_dir: "/app"
