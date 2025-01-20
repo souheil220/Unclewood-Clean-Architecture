@@ -38,7 +38,14 @@ public class AutoMapperProfiles : Profile
         
     
       
-        CreateMap<MealIngredient, MealIngredientDto>().ReverseMap();
+        CreateMap<MealIngredient, MealIngredientDto>()
+            .ForMember(dest => dest.IngredientId,
+                opt
+                    => opt.MapFrom(src => src.IngredientId))
+            .ForMember(dest => dest.IngredientName,
+                opt 
+                    => opt.MapFrom(src => src.Ingredient.Name.Value))
+            .ReverseMap();
 
     }
 }

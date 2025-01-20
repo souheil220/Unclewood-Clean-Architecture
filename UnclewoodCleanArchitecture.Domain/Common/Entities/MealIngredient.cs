@@ -1,5 +1,3 @@
-using UnclewoodCleanArchitecture.Domain.Common.Models;
-
 namespace UnclewoodCleanArchitecture.Domain.Common.Entities;
 
 public sealed class MealIngredient : Models.ValueObject

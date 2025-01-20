@@ -1,3 +1,3 @@
 namespace UnclewoodCleanArchitecture.Application.DTOS;
 
-public record MealIngredientDto(Guid IngredientId);
+public record MealIngredientDto(Guid IngredientId, string IngredientName);

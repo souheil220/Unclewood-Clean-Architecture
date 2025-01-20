@@ -22,13 +22,13 @@ services:
       RESHARPER_LOG_CONF: "/etc/opt/rider-debugger/backend-log.xml"
     image: "unclewood_api:dev"
     ports:
-    - "127.0.0.1:57030:57100"
-    - "127.0.0.1:57230:57300"
+    - "127.0.0.1:57004:57100"
+    - "127.0.0.1:57204:57300"
     volumes:
     - "/Users/luxurysmartphone/.nuget/packages:/home/app/.nuget/packages"
     - "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur/UnclewoodCleanArchitectur:/app:rw"
     - "/Users/luxurysmartphone/RiderProjects/Unclewood-Clean-Architectur:/src:rw"
     - "/Users/luxurysmartphone/.local/share/JetBrains/RiderRemoteDebugger/2024.2.7/LinuxArm64:/opt/rider-debugger"
     - "/Applications/Rider.app/Contents/bin:/etc/opt/rider-debugger/backend-log.xml"
-    - "/Users/luxurysmartphone/Library/Logs/JetBrains/Rider2024.2/DebuggerWorker/JetBrains.Debugger.Worker.2025_1_17_02_56_48:/var/opt/rider-debugger:rw"
+    - "/Users/luxurysmartphone/Library/Logs/JetBrains/Rider2024.2/DebuggerWorker/JetBrains.Debugger.Worker.2025_1_20_02_13_54:/var/opt/rider-debugger:rw"
     working_dir: "/app"

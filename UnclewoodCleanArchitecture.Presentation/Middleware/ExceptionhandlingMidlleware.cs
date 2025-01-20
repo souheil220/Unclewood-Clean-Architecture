@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+using UnclewoodCleanArchitecture.Application.Exceptions;
+using UnclewoodCleanArchitecture.Domain.Exepptions;
+using UnclewoodCleanArchitecture.Domain.Exepptions.Common;
 using ValidationException = UnclewoodCleanArchitecture.Application.Exceptions.ValidationException;
 
 namespace UnclewoodCleanArchitectur.Presentation.Middleware;
@@ -59,6 +61,13 @@ public class ExceptionhandlingMidlleware
                 "Validation error",
                 "One or more validation errors has occured",
                 validationException.Errors
+            ),
+            DomainException domainException => new ExceptionDetail(
+                StatusCodes.Status400BadRequest,
+                "DomainFailure",
+                "Domain error",
+                "One or more domain errors has occured",
+                domainException.Errors
             ),
             _ => new ExceptionDetail(
                 StatusCodes.Status500InternalServerError,

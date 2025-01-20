@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using UnclewoodCleanArchitecture.Infrastructure.Common.Persistence;
 using UnclewoodCleanArchitecture.Application.Common.Interfaces;
+using UnclewoodCleanArchitecture.Domain.Ingredient.ValueObjects;
+using UnclewoodCleanArchitecture.Domain.Meal.Enums;
+using UnclewoodCleanArchitecture.Domain.Meal.ValueObjects;
 
 namespace UnclewoodCleanArchitecture.Infrastructure.Meal.Persistence;
 
@@ -27,10 +30,12 @@ public class MealRepository : IMealRepository
 
     public async Task<Domain.Meal.Meal?> GetMealByGuidAsync(Guid mealGuid)
     {
-        return await _dbContext.Meals.Include(m => m!.MealIngredients) 
-            .ThenInclude(mi => mi.Ingredient) 
-            .Include(m => m!.Photos) 
+        return await _dbContext.Meals
+            .Include(m => m!.MealIngredients)
+            .ThenInclude(mi => mi.Ingredient)
+            .Include(m => m!.Photos)
             .FirstOrDefaultAsync(m => m!.Id == mealGuid);
+
     }
 
     public async Task<IEnumerable<Domain.Meal.Meal>> GetMealsAsync()

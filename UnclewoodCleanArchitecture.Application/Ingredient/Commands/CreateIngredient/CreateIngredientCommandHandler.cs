@@ -13,8 +13,8 @@ public class CreateIngredientCommandHandler(IIngrediantsRepository ingrediantsRe
 {
     public async Task<Result<Domain.Ingredient.Ingredient>> Handle(CreateIngredientCommand request, CancellationToken cancellationToken)
     {
-        var mealExist = await ingrediantsRepository.IngrediantExists(request.Name);
-        if (mealExist)
+        var ingridientExist = await ingrediantsRepository.IngrediantExists(request.Name);
+        if (ingridientExist)
         {
             return Result.Failure<Domain.Ingredient.Ingredient>(IngredientErrors.IngredientAlreadyExist);
         }

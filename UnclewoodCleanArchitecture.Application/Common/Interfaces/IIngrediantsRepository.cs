@@ -2,7 +2,7 @@ namespace UnclewoodCleanArchitecture.Application.Common.Interfaces;
 
 public interface IIngrediantsRepository
 {
-    void UpdateIngrediantAsync(Domain.Ingredient.Ingredient ingrediant);
+    Task UpdateIngredientAsync(Domain.Ingredient.Ingredient ingrediant);
     Task<Domain.Ingredient.Ingredient?> GetIngrediantByNameAsync(string ingrediantName);
     Task<Domain.Ingredient.Ingredient?> GetIngrediantByIdAsync(Guid id);
     Task<IEnumerable<Domain.Ingredient.Ingredient>> GetIngrediantsAsync();

@@ -25,6 +25,5 @@ public sealed class Price : BasePrice
         // Include Location in equality check
         yield return Location;
     }
-    private Price() : base(0,string.Empty)
-    { }
+    private Price() : base(){}
 }

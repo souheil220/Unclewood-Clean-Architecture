@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using UnclewoodCleanArchitectur.Presentation.Ingredient;
 using UnclewoodCleanArchitecture.Application.Ingredient.Commands.CreateIngredient;
 using UnclewoodCleanArchitecture.Application.Ingredient.Commands.DeleteIngredient;
+using UnclewoodCleanArchitecture.Application.Ingredient.Commands.UpdateIngredient;
 using UnclewoodCleanArchitecture.Application.Ingredient.Queries.GetIngredient;
 using UnclewoodCleanArchitecture.Application.Ingredient.Queries.ListIngredient;
+using UnclewoodCleanArchitecture.Domain.Common;
 using UnclewoodCleanArchitecture.Infrastructure.Authorization;
 using DomainLocation = UnclewoodCleanArchitecture.Domain.Common.Enum.Location;
 
@@ -23,7 +25,7 @@ public class IngredientController : BaseApiController
    
     [HttpPost]
     [HasPermission(Permissions.IngredientAdd)]
-    public async Task<ActionResult> CreateIngrediant([FromBody] CreateIngridientRequest ingrediantRequest)
+    public async Task<ActionResult> CreateIngrediant(CreateIngridientRequest ingrediantRequest)
     {
         var command = new CreateIngredientCommand(
             ingrediantRequest.Name,
@@ -91,6 +93,23 @@ public class IngredientController : BaseApiController
        }
         return  ingredientResponses;
     }
+
+    [HttpPatch("updateIngredient/{ingredientId:guid}")]
+    [HasPermission(Permissions.IngredientAdd)]
+    public async Task<IActionResult> UpdateIngredient(UpdateIngredientCommand ingredientCommand, Guid ingredientId,
+        CancellationToken cancellationToken)
+    {
+        var command = ingredientCommand with { Id = ingredientId };
+        var response = await _mediator.Send(command,cancellationToken);
+
+        if (response.IsFailure)
+        {
+            return BadRequest(response.Error);
+        }
+        return Ok(response.Value);
+    }
+
+    
     
     [HttpDelete("{ingredientId:guid}")]
     [HasPermission(Permissions.IngredientDelete)]

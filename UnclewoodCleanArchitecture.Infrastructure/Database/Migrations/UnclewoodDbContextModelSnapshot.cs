@@ -383,6 +383,10 @@ namespace UnclewoodCleanArchitecture.Infrastructure.Database.Migrations
                             b1.Property<Guid>("IngredientId")
                                 .HasColumnType("uuid");
 
+                            b1.Property<string>("Currency")
+                                .IsRequired()
+                                .HasColumnType("text");
+
                             b1.Property<decimal>("Value")
                                 .HasColumnType("numeric");
 

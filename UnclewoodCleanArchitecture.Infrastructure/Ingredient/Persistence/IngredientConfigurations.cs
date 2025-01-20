@@ -25,6 +25,8 @@ public class IngredientConfigurations : IEntityTypeConfiguration<UnclewoodCleanA
         {
             priceBuilder.Property(p => p.Value)
                 .IsRequired();
+            priceBuilder.Property(p => p.Currency)
+                .IsRequired();
         });
         
         builder.OwnsMany(m => m.DisponibleIn, disponibleInBuilder =>

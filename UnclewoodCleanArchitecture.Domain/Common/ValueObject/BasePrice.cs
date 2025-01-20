@@ -7,20 +7,22 @@ public class BasePrice : Models.ValueObject
     private const decimal MinValue = 100m;
     private const decimal MaxValue = 10000m;
     public decimal Value { get; }
-    public string Currency { get; }
+    public string Currency { get; init; }
 
     protected BasePrice(decimal value, string currency)
     {
         Value = decimal.Round(value, 2);
-        Currency = !string.IsNullOrWhiteSpace(currency)? ValidateCurrency(currency):"DZA";
+     var currencyValidationResult = ValidateCurrency(currency);
+     if (currencyValidationResult.IsFailure)
+     {
+         throw new PriceDomainException(currencyValidationResult.Error.Name);
+     }
+
+     Currency = currencyValidationResult.Value;
     }
     public static BasePrice Create(decimal value, string currency)
     {
         ValidatePrice(value);
-        return new BasePrice(value, currency);
-    }
-    public static BasePrice CreateUnvalidated(decimal value, string currency)
-    {
         return new BasePrice(value, currency);
     }
     
@@ -42,11 +44,15 @@ public class BasePrice : Models.ValueObject
         }
     }
     
-    private static string ValidateCurrency(string currency)
+    private static Result<string> ValidateCurrency(string currency)
     {
         if (string.IsNullOrWhiteSpace(currency))
         {
-            throw new PriceDomainException("Currency cannot be empty");
+            return Result.Failure<string>(
+                new Error(
+                    "PriceDomainException.ValidateCurrency",
+                    "Currency cannot be empty"));
+
         }
 
         var normalizedCurrency = currency.Trim().ToUpper();
@@ -54,35 +60,54 @@ public class BasePrice : Models.ValueObject
         
         if (!validCurrencies.Contains(normalizedCurrency))
         {
-            throw new PriceDomainException($"Currency {currency} is not supported");
+            return Result.Failure<string>(
+                new Error(
+                    "PriceDomainException.ValidateCurrency",
+                    "Currency {currency} is not supported"));
+            
         }
 
-        return normalizedCurrency;
+        return Result.Success(normalizedCurrency).Value;
     }
 
-    private BasePrice MultiplyBy(decimal multiplier)
+    private Result<BasePrice> MultiplyBy(decimal multiplier)
     {
         if (multiplier < 0)
         {
-            throw new PriceDomainException("Multiplier cannot be negative");
+            return Result.Failure<BasePrice>(
+                new Error(
+                    "PriceDomainException.MultiplyBy",
+                    "Multiplier cannot be negative"));
+
         }
-        var result = Value * multiplier;
-        return Create(result, Currency);
+
+        var result = Create(Value * multiplier, Currency);
+        
+        return Result.Success(result);
     }
     
-    public BasePrice ApplyDiscount(decimal percentageDiscount)
+    public Result<BasePrice> ApplyDiscount(decimal percentageDiscount)
     {
         var discountMultiplier = 1 - (percentageDiscount / 100);
         
-        return MultiplyBy(discountMultiplier);
+        var result = MultiplyBy(discountMultiplier);
+        if (result.IsFailure)
+        {
+            return Result.Failure<BasePrice>(result.Error);
+        }
+        else
+        {
+            return result.Value;
+        }
     }
     
     private void EnsureSameCurrency(BasePrice other)
     {
         if (Currency != other.Currency)
         {
-            throw new PriceDomainException($"Cannot compare prices with different currencies: {Currency} and {other.Currency}");
+            throw new PriceDomainException($"Cannot compare prices with different currencies: {Currency} and {other.Currency}");   
         }
+        
     }
 
     public bool IsGreaterThan(BasePrice other)
@@ -103,5 +128,7 @@ public class BasePrice : Models.ValueObject
         yield return Value;
         yield return Currency;
     }
+    
+    protected BasePrice(){}
     
 }

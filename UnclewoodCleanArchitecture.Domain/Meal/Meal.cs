@@ -121,7 +121,7 @@ public sealed class Meal : AggregateRoot
         {
             foreach (var price in prices)
             {
-                NewPrices.Add(new Price(price.ApplyDiscount(promotionRate).Value, price.Currency, price.Location));
+                NewPrices.Add(new Price(price.ApplyDiscount(promotionRate).Value.Value, price.Currency, price.Location));
             }
 
         }

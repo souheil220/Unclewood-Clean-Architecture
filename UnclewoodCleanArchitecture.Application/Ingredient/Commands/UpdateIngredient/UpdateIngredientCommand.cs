@@ -1,4 +1,10 @@
+using UnclewoodCleanArchitecture.Application.Common.Interfaces.Command;
+
 namespace UnclewoodCleanArchitecture.Application.Ingredient.Commands.UpdateIngredient;
 
-//TODO IMPLEMENT UPDATE MEAL
-public record UpdateIngredientCommand();
+public record UpdateIngredientCommand(
+    Guid Id,
+    string? Name,
+    List<string>? DisponibleIn,
+    string PriceCurrency = "DZD",
+    decimal PriceValue = 0): ICommand<IngredientResponse>;

@@ -14,9 +14,10 @@ public class IngredientRepository : IIngrediantsRepository
     }
 
 
-    public void UpdateIngrediantAsync(Domain.Ingredient.Ingredient ingredient)
+    public Task UpdateIngredientAsync(Domain.Ingredient.Ingredient ingredient)
     {
         _dbContext.Entry(ingredient).State = EntityState.Modified;
+        return Task.CompletedTask;
     }
 
     public async Task<Domain.Ingredient.Ingredient?> GetIngrediantByNameAsync(string ingrediantName)
