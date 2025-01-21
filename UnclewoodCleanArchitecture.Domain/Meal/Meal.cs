@@ -1,3 +1,4 @@
+using System.Collections;
 using UnclewoodCleanArchitecture.Domain.Common;
 using UnclewoodCleanArchitecture.Domain.Common.Entities;
 using UnclewoodCleanArchitecture.Domain.Common.Models;
@@ -71,7 +72,50 @@ public sealed class Meal : AggregateRoot
        meal.RaiseMealCreatedEvent();
 
        return meal;
+   }
+
+   public void UpdateName(string name)
+   {
+       Name = new Name(name);
    } 
+   public void UpdateDesciption(string description)
+   {
+       Description = new Descriptiion(description);
+   } 
+   public void UpdateCategory(string category)
+   {
+       var newCategory = Category.FromName(category);
+       Category = new Category(newCategory.Name, newCategory.Value);
+   } 
+   public void UpdateBestSeller(bool bestSeller)
+   {
+       BestSeller = new BestSeller(bestSeller);
+   }
+   public void UpdatePromotion(bool promotion)
+   {
+       Promotion = new Promotion(promotion);
+   } 
+   public void UpdatePromotionRate(double promotionRate)
+   {
+       PromotionRate = new PromotionRate(promotionRate);
+       ApplyPromotionIfNecessary(Prices,Promotion.Value,(decimal)promotionRate);
+   } 
+   public void UpdatePrices(ICollection<Price> prices)
+   {
+       Prices.Clear();
+       AddPrices(prices);
+   } 
+   public void UpdateIngredients(List<Guid> ingredients)
+   {
+       ingredients.Clear();
+       AddIngredients(ingredients);
+   } 
+   public void UpdatePictures(List<Photo> photos)
+   {
+       photos.Clear();
+       AddPhotos(photos);
+   }
+   
    
    
    

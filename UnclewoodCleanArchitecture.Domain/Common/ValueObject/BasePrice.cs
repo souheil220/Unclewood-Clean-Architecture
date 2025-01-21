@@ -95,10 +95,8 @@ public class BasePrice : Models.ValueObject
         {
             return Result.Failure<BasePrice>(result.Error);
         }
-        else
-        {
-            return result.Value;
-        }
+
+        return result.Value;
     }
     
     private void EnsureSameCurrency(BasePrice other)

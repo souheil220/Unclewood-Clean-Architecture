@@ -3,16 +3,16 @@ using Dapper;
 using UnclewoodCleanArchitecture.Application.Common.Interfaces;
 using UnclewoodCleanArchitecture.Application.Common.Interfaces.Query;
 using UnclewoodCleanArchitecture.Application.Data;
-using UnclewoodCleanArchitecture.Application.Meal.Queries.GetMeal;
+using UnclewoodCleanArchitecture.Application.DTOS;
 using UnclewoodCleanArchitecture.Domain.Common;
 
 namespace UnclewoodCleanArchitecture.Application.Meal.Queries.ListMeals;
 
-public class ListMealQueryHandler(IMealRepository mealRepository,ISqlConnectionFactory mealConnectionFactory)
-    : IQueryHandler<ListMealQuery, IEnumerable<Domain.Meal.Meal>>
+public class ListMealQueryHandler(IMealRepository mealRepository,IMapper mapper,ISqlConnectionFactory mealConnectionFactory)
+    : IQueryHandler<ListMealQuery,List<MealResponse>>
 {
 
-    public async Task<Result<IEnumerable<Domain.Meal.Meal>>> Handle(ListMealQuery request, CancellationToken cancellationToken)
+    public async Task<Result<List<MealResponse>>> Handle(ListMealQuery request, CancellationToken cancellationToken)
     {
       /*  using var connection = _sqlConnectionFactory.CreateConnection();
         var sql = $"""
@@ -63,6 +63,34 @@ public class ListMealQueryHandler(IMealRepository mealRepository,ISqlConnectionF
         );
         return mealDapper;*/
         var meals = await mealRepository.GetMealsAsync();
-        return Result.Success(meals);
+        var mealResponse = new List<MealResponse>();
+        if (meals.Any())
+        {
+             foreach (var meal in meals)
+             {
+                 var prices = mapper.Map<ICollection<PriceDto>>(meal.Prices);
+                 var mealIngredients =  mapper.Map<List<MealIngredientDto>>(meal.MealIngredients);
+                 var mealPhotos =  mapper.Map<List<PhotoDto>>(meal.Photos);
+          
+                 meal.ApplyPromotionIfNecessary(meal.Prices,meal.Promotion.Value ,(decimal)meal.PromotionRate.Value);
+          
+                 var newPrices = mapper.Map<IEnumerable<PriceDto>>(meal.NewPrices);
+                 var newMeal = new MealResponse(
+                     Id: meal.Id,
+                     Name: meal.Name.Value,
+                     Description : meal.Description.Value,
+                     BestSeller: meal.BestSeller.Value,
+                     Promotion: meal.Promotion.Value,
+                     NewPrice: newPrices, 
+                     Category: meal.Category.Name,
+                     Prices :prices ,
+                     Ingrediants :mealIngredients,
+                     Photos : mealPhotos
+                     );
+                mealResponse.Add(newMeal); 
+             }
+        }
+       
+        return Result.Success(mealResponse);
     }
 }

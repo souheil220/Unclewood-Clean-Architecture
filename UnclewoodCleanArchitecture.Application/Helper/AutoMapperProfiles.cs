@@ -2,6 +2,7 @@ using AutoMapper;
 using UnclewoodCleanArchitecture.Application.DTOS;
 using UnclewoodCleanArchitecture.Application.Ingredient;
 using UnclewoodCleanArchitecture.Domain.Common.Entities;
+using UnclewoodCleanArchitecture.Domain.Common.Enum;
 using UnclewoodCleanArchitecture.Domain.Meal.Entities;
 using UnclewoodCleanArchitecture.Domain.Meal.ValueObjects;
 
@@ -11,18 +12,15 @@ public class AutoMapperProfiles : Profile
 {
     public AutoMapperProfiles()
     {
-        /*CreateMap<Domain.Ingredient.Ingredient, IngrediantDTO>();
-        CreateMap<Domain.Meal.Meal, MealResponseDTO>()
-            .ForMember(dest => dest.Ingrediants,
-                opt => opt.MapFrom(src => src.MealIngrediants
-                    .Select(mi => mi.Ingrediant)))
-            .ForMember(dest => dest.Photos,
-                opt => opt.MapFrom(src => src.Photos
-                    .Select(p => new PhotoDTO { Url = p.Url })));
-        CreateMap<MealDTO, Domain.Meal.Meal>();
-        CreateMap<Domain.Meal.Meal, MealDTO>();*/
         CreateMap<Photo, PhotoDto>().ReverseMap();
         CreateMap<Price, PriceDto>().ReverseMap();
+        CreateMap<PriceDto, Price>()
+            .ForCtorParam("value", opt 
+                => opt.MapFrom(src => src.Value)) // Map constructor parameter
+            .ForCtorParam("currency", opt
+                => opt.MapFrom(src => src.Currency)) // Map constructor parameter
+            .ForCtorParam("location", opt 
+                => opt.MapFrom(src => Location.FromName(src.Location,false)));
 
         CreateMap<Domain.Ingredient.Ingredient, IngredientResponse>()
             .ForMember(dest => dest.Name,

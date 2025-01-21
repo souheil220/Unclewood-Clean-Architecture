@@ -16,9 +16,10 @@ public class MealRepository : IMealRepository
         _dbContext = dbContext;
     }
 
-    public void UpdateMeal(Domain.Meal.Meal meal)
+    public Task UpdateMealAsync(Domain.Meal.Meal meal)
     {
-        throw new NotImplementedException();
+        _dbContext.Entry(meal).State = EntityState.Modified;
+        return Task.CompletedTask;
     }
 
     public async Task<Domain.Meal.Meal?> GetMealByNameAsync(string mealName)

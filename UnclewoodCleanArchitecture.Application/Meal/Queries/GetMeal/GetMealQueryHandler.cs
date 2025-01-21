@@ -10,7 +10,7 @@ using UnclewoodCleanArchitecture.Domain.Meal.Errors;
 
 namespace UnclewoodCleanArchitecture.Application.Meal.Queries.GetMeal;
 
-public class GetMealQueryHandler(IMealRepository mealRepository,ISqlConnectionFactory sqlConnectionFactory, IMapper mapper) : IQueryHandler<GetMealQuery, MealResponse>
+public class GetMealQueryHandler(IMealRepository mealRepository, IMapper mapper,ISqlConnectionFactory sqlConnectionFactory) : IQueryHandler<GetMealQuery, MealResponse>
 {
     public async Task<Result<MealResponse>> Handle(GetMealQuery request, CancellationToken cancellationToken)
     {
@@ -62,7 +62,7 @@ public class GetMealQueryHandler(IMealRepository mealRepository,ISqlConnectionFa
           
               meal.ApplyPromotionIfNecessary(meal.Prices,meal.Promotion.Value ,(decimal)meal.PromotionRate.Value);
           
-              var newMeal = mapper.Map<IEnumerable<PriceDto>>(meal.NewPrices);
+              var newPrices = mapper.Map<IEnumerable<PriceDto>>(meal.NewPrices);
               
               var mealResponse = new MealResponse(
                   Id: meal.Id,
@@ -70,7 +70,7 @@ public class GetMealQueryHandler(IMealRepository mealRepository,ISqlConnectionFa
                   Description : meal.Description.Value,
                   BestSeller: meal.BestSeller.Value,
                   Promotion: meal.Promotion.Value,
-                  NewPrice: newMeal, 
+                  NewPrice: newPrices, 
                   Category: meal.Category.Name,
                   Prices :prices ,
                   Ingrediants :mealIngredients,

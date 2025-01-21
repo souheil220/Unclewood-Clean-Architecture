@@ -8,7 +8,7 @@ public sealed class PromotionRate : Common.Models.ValueObject
     public double Value { get; private set; }
 
     [JsonConstructor]
-    private PromotionRate(double value)
+    public PromotionRate(double value)
     {
         Value = value;
     }

@@ -5,6 +5,7 @@ using UnclewoodCleanArchitectur.Presentation.Meal;
 using UnclewoodCleanArchitecture.Application.DTOS;
 using UnclewoodCleanArchitecture.Application.Meal.Commands.CreateMeal;
 using UnclewoodCleanArchitecture.Application.Meal.Commands.DeleteMeal;
+using UnclewoodCleanArchitecture.Application.Meal.Commands.UpdateMeal;
 using UnclewoodCleanArchitecture.Application.Meal.Queries.GetMeal;
 using UnclewoodCleanArchitecture.Application.Meal.Queries.ListMeals;
 using UnclewoodCleanArchitecture.Infrastructure.Authorization;
@@ -31,12 +32,12 @@ public class MealController : BaseApiController
             mealRequest.Name,
             mealRequest.Prices,
             mealRequest.Description,
-            mealRequest.BestSeller,
-            mealRequest.Promotion,
-            mealRequest.PromotionRate,
             mealRequest.MealPictures,
             mealRequest.IngrediantsIDs,
-            mealRequest.Category);
+            mealRequest.Category, 
+            BestSeller: mealRequest.BestSeller, 
+            Promotion: mealRequest.Promotion, 
+            PromotionRate: mealRequest.PromotionRate);
         
         var createMealResult = await _mediator.Send(command,concellationToken);
 
@@ -78,38 +79,29 @@ public class MealController : BaseApiController
         return Ok(getMealResult.Value);
 
     }
-    
+
+    [HttpPatch("{mealId:guid}")]
+    [HasPermission(Permissions.MealAdd)]
+    public async Task<ActionResult> UpdateMeal(UpdateMealCommand mealCommand,Guid mealId,CancellationToken cancellationToken)
+    {
+        var command = mealCommand with { MealId = mealId };
+        var response = await _mediator.Send(command,cancellationToken);
+        if (response.IsFailure)
+        {
+            return BadRequest(response.Error);
+        }
+        return Ok(response.Value);
+    }
     
     [HttpGet]
-    public async Task<List<MealResponse>> GetMeals()
+    public async Task<IActionResult> GetMeals()
     {
         var query = new ListMealQuery();
 
         var getMealsResult = await _mediator.Send(query);
-
-        List<MealResponse> mealResponses = new ();
         
 
-        foreach (var meal in getMealsResult.Value)
-        {
-            var prices = _mapper.Map<ICollection<PriceDto>>(meal.Prices);
-            var mealIngredients =  _mapper.Map<List<MealIngredientDto>>(meal.MealIngredients);
-            var mealPhotos =  _mapper.Map<List<PhotoDto>>(meal.Photos);
-            mealResponses.Add(new MealResponse(
-                    Id:meal.Id,
-                    Name:meal.Name.Value,
-                    Description:meal.Description.Value,
-                    BestSeller:meal.BestSeller.Value,
-                    Promotion: meal.Promotion.Value,
-                    PromotionRate: meal.PromotionRate.Value,
-                    Category: meal.Category.Name,
-                    Prices : prices,
-                    Ingrediants: mealIngredients,
-                    Photos: mealPhotos
-                ));
-        }
-
-        return  mealResponses;
+        return  Ok(getMealsResult.Value);
 
     }
     
